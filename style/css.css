@@ -1,0 +1,23 @@
+body {
+	background-color:black;
+	background-image: url("bg-rep.png");
+	font-family: Trebuchet MS1, Trebuchet MS, sans-serif;
+	color: white;
+
+}
+#container {
+	margin: 40px 70px 40px 70px;
+
+}
+#circle {
+	width: 70px;
+	height: 70px;
+	background: #D8D8D8;
+	-moz-border-radius: 50px;
+	-webkit-border-radius: 50px;
+	border-radius: 50px;
+}
+
+#field td {
+	padding: 3px 5px 3px 5px;
+}
