@@ -5,19 +5,15 @@ body {
 	color: white;
 
 }
-#container {
-	margin: 40px 70px 40px 70px;
+#wrapper {
+  padding: 2% 5% 2% 5%;
+}
+#pick_cards {
 
 }
-#circle {
-	width: 70px;
-	height: 70px;
-	background: #D8D8D8;
-	-moz-border-radius: 50px;
-	-webkit-border-radius: 50px;
-	border-radius: 50px;
+#pick_round_amount {
+	display:none;
 }
-
-#field td {
-	padding: 3px 5px 3px 5px;
+#board {
+	display:none;
 }
