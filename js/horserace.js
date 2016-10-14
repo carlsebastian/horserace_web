@@ -17,28 +17,46 @@ function pageLoad(func) {
 
 // pass the function you want to call at 'window.onload', in the function defined above
 pageLoad(function(){
-    initiate();
+    initiateTableButtons("pick_cards", "div", 4, "picksuite");
+    
+    initiateButton();
 });
 
-function initiate(){
+function initiateTableButtons(element, name, size, id){
     console.log("loaded");
-    var table = document.getElementById("pick_cards"); 
-    var cells = table.getElementsByTagName("div"); 
-    for (var i = 0; i < 4; i++) {
-        cells[i].id = "picksuite"+i;
+    var table = document.getElementById(element); 
+    var cells = table.getElementsByTagName(name); 
+    for (var i = 0; i < size; i++) {
+        cells[i].id = id+i;
         cells[i].addEventListener("click", pickSuite, false);
-    }
-    for (var i = 4; i < 6; i++) {
-        cells[i].id = "event"+i;
-        cells[i].addEventListener("click", action, false);
     }
 }
 
-var suits=['h','d','c','s'];
-var 
+//below is hardcoded, maybe change html?
+function initiateButton(){
+    pick_cards.addEventListener("click", hideThis, false); //(showThis("pick_round_amount"))
+}
+
+function hideThis(func){
+    this.classList.toggle("hidden");
+    //func;
+}
+
+// function showThis(func){
+//     this.classList.toggle("hidden");
+//     func;
+// }
+
+//var suits=[h='0', d='0', c='0', s='0']; 
+var suits = [0, 0, 0, 0]; 
 function pickSuite(){
-    suits.push('1');
-    console.log("added!",this.id);
+    position = this.id.match(/\d/);
+    if (suits[position]==1){
+        suits[position]=0;
+    } else{
+        suits[position]=1;
+    }
+    console.log("added!",this.id, suits[position], suits);
 }
 
 function action(){
