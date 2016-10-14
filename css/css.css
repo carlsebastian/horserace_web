@@ -1,3 +1,6 @@
+/*
+---------CSS FILE OF HORSRACE----------
+*/
 body {
 	background-color:black;
 	background-image: url("bg-rep.png");
@@ -6,14 +9,46 @@ body {
 
 }
 #wrapper {
-  padding: 2% 5% 2% 5%;
+  padding: 5% 10% 5% 10%;
+	margin 0;
 }
 #pick_cards {
+width:80%;
+height:60%;
+}
+
+#pick_cards_tbl {
+	width: 100%;
+	height: 100%;
+	margin-left: auto;
+	margin-right: auto;
+}
+#pick_cards_tbl div {
+	padding: 3px 5px 3px 5px;
+	background-color: white;
+	color: black;
+	height: 100%;
+}
+#pick_cards_tbl div.inv_div {
+	display:none;
+}
+#pick_cards_tbl tr {
+
+}
+#pick_cards_tbl td {
+	padding-right: 3%;
+	padding-bottom: 3%;
+}
+#pick_cards_tbl td.last_hor {
 
 }
 #pick_round_amount {
 	display:none;
+	width:80%;
+	height:60%;
 }
 #board {
 	display:none;
+	width:70%;
+	height:60%;
 }
