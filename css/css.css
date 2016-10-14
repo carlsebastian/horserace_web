@@ -14,7 +14,7 @@ body {
 }
 
 #pick_cards {
-display: none;
+/*display: none;*/
 width:80%;
 height:60%;
 }
@@ -53,7 +53,7 @@ height:60%;
 
 }
 #pick_round_amount {
-	/* display:none; */
+	 display:none; 
 	width:80%;
 	height:60%;
 }
@@ -88,4 +88,7 @@ height:60%;
 	display:none;
 	width:70%;
 	height:60%;
+}
+.hidden{
+	display: none;
 }
