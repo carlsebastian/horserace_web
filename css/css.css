@@ -1,5 +1,5 @@
 /*
----------CSS FILE OF HORSRACE----------
+---------CSS FILE OF HORSeRACE----------
 */
 body {
 	background-color:black;
@@ -14,9 +14,8 @@ body {
 }
 
 #pick_cards {
-/*display: none;*/
-width:80%;
-height:60%;
+width:60%;
+height:40%;
 }
 
 #pick_cards_tbl {
@@ -25,7 +24,9 @@ height:60%;
 	margin-left: auto;
 	margin-right: auto;
 }
+
 #pick_cards_tbl div {
+	border-radius: 3px;
 	padding: 3px 5px 3px 5px;
 	background-color: white;
 	color: black;
@@ -53,9 +54,14 @@ height:60%;
 
 }
 #pick_round_amount {
-	 display:none; 
-	width:80%;
-	height:60%;
+	width:60%;
+	height:40%;
+}
+.hidden {
+	display:none;
+}
+.show {
+	display: block;
 }
 #pick_round_amount_tbl {
 	height: 100%;
@@ -68,6 +74,7 @@ height:60%;
 	background-color: white;
 	color: black;
 	height: 100%;
+	border-radius: 3px;
 }
 #pick_round_amount_tbl div.next_div {
 	background-color: green;
