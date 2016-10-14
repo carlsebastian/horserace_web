@@ -12,7 +12,9 @@ body {
   padding: 5% 10% 5% 10%;
 	margin 0;
 }
+
 #pick_cards {
+display: none;
 width:80%;
 height:60%;
 }
@@ -28,14 +30,22 @@ height:60%;
 	background-color: white;
 	color: black;
 	height: 100%;
+
 }
 #pick_cards_tbl div.inv_div {
 	display:none;
+}
+#pick_cards_tbl div.next_div {
+	background-color: green;
+}
+#pick_cards_tbl div.previous_div {
+	background-color: red;
 }
 #pick_cards_tbl tr {
 
 }
 #pick_cards_tbl td {
+
 	padding-right: 3%;
 	padding-bottom: 3%;
 }
@@ -43,9 +53,36 @@ height:60%;
 
 }
 #pick_round_amount {
-	display:none;
+	/* display:none; */
 	width:80%;
 	height:60%;
+}
+#pick_round_amount_tbl {
+	height: 100%;
+	width: 100%;
+	margin-left: auto;
+	margin-right: auto;
+}
+#pick_round_amount_tbl div {
+	padding: 3px 5px 3px 5px;
+	background-color: white;
+	color: black;
+	height: 100%;
+}
+#pick_round_amount_tbl div.next_div {
+	background-color: green;
+}
+#pick_round_amount_tbl div.previous_div {
+	background-color: red;
+}
+#pick_round_amount_tbl tr {
+
+}
+#pick_round_amount_tbl td {
+	width: 20%;
+	padding-right: 3%;
+	padding-bottom: 3%;
+
 }
 #board {
 	display:none;
