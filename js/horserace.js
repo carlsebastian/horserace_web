@@ -18,8 +18,8 @@ function pageLoad(func) {
 // pass the function you want to call at 'window.onload', in the function defined above
 pageLoad(function(){
     initiateTableButtons("pick_cards", "div", 4, "picksuite");
-    
     initiateButton();
+    document.getElementById("pick_cards_next").addEventListener("click", hideEl, false);
 });
 
 function initiateTableButtons(element, name, size, id){
@@ -39,13 +39,14 @@ function initiateButton(){
 
 function hideThis(func){
     this.classList.toggle("hidden");
-    //func;
+}
+function hideEl(el, show){
+    this.classList.toggle("hidden");
 }
 
-// function showThis(func){
-//     this.classList.toggle("hidden");
-//     func;
-// }
+function showThis(el){
+    el.classList.toggle("hidden");
+}
 
 //var suits=[h='0', d='0', c='0', s='0']; 
 var suits = [0, 0, 0, 0]; 
