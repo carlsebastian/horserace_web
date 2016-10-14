@@ -1,49 +1,46 @@
-//Horserace Js file
-
-var deck = new Array(48);
-var cardsLeft = 48;
-
-function deckInit(deck){
-	for (var i = 0; i<48; i++){
-		deck[i]=i+".jpg";
-	}
+function pageLoad(func) {
+    // assign any pre-defined functions on 'window.onload' to a variable
+    var oldOnLoad = window.onload;
+    // if there is not any function hooked to it
+    if (typeof window.onload != 'function') {
+        // you can hook your function with it
+        window.onload = func;
+    } else { // someone already hooked a function
+        window.onload = function () {
+            // call the function hooked already
+            oldOnLoad();
+            // call your awesome function
+            func;
+        }
+    }
 }
 
-//when a card is chosen this card should be removed from the deck
-function removeCard(deck, card){
-	deck[card]=null;
+// pass the function you want to call at 'window.onload', in the function defined above
+pageLoad(function(){
+    initiate();
+});
+
+function initiate(){
+    console.log("loaded");
+    var table = document.getElementById("pick_cards"); 
+    var cells = table.getElementsByTagName("div"); 
+    for (var i = 0; i < 4; i++) {
+        cells[i].id = "picksuite"+i;
+        cells[i].addEventListener("click", pickSuite, false);
+    }
+    for (var i = 4; i < 6; i++) {
+        cells[i].id = "event"+i;
+        cells[i].addEventListener("click", action, false);
+    }
 }
 
-//chooses a "random" card, hack this you mofo, avoid to get drunk.
-function randomCard(deck){
-	var card = Math.floor((Math.random() * cardsLeft));
-	if (deck[card] == null) {
-		randomCard(deck);
-	}
-	deck = removeCard(deck, card);
-	cardsLeft--;
-	return card;
+var suits=['h','d','c','s'];
+var 
+function pickSuite(){
+    suits.push('1');
+    console.log("added!",this.id);
 }
 
-
-//load this when DOM is loaded, does awesome things
-function loaded(){
-	//loadDeck(deck);
-	deckInit(deck);
-	console.log("dope! made the DOM-challenge!");
-	for (var i = 0; i < deck.length; i++){
-		console.log(deck[i]);
-	}
-}
-
-//actually fires when DOM is loaded
-window.onload = loaded();
-
-
-
-function loadDeck(deck){
-	for (var i = 0; i<deck.length; i++){
-		deck[i]=i+".jpg";
-	}
-	return deck;
+function action(){
+    console.log("action!");
 }

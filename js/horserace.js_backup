@@ -1,0 +1,96 @@
+//Horserace Js file
+
+var suits = []; // d=diamond, h=hearts, s=spades, c=clubs
+//create button event that chooses suit, depending on which is clicked on
+function chooseSuit(){
+	return null;
+}
+
+
+
+
+// //below is prob shit, begin the right way next time mofo
+// //create with right amount of cards..
+// var deck = new Array(48);
+// var cardsLeft = 48;
+// var dup=[];
+
+// function deckInit(deck){
+// 	for (var i = 0; i<48; i++){
+// 		deck[i]=i+".jpg";
+// 	}
+// }
+
+// //when a card is chosen this card should be removed from the deck
+// function removeCard(deck, card){
+// 	deck[card]="0";
+// }
+
+// //chooses a "random" card, hack this you mofo, avoid to get drunk.
+// function randomCard(deck){
+// 	var card = Math.floor((Math.random() * cardsLeft));
+
+// 	if ( cardsLeft == 0){
+// 		return null;
+// 	}
+
+// 	// if (deck[card] == "") {
+// 	// 	randomCard(deck);
+// 	// }
+	
+// 	deck = removeCard(deck, card);
+// 	dup.push(deck);
+// 	cardsLeft--;
+// 	return card;
+// }
+
+function phaseOne(){
+	//get right table in DOM
+	// var table = document.getElementById("pick_cards");
+	// var td = table.getElementsByTagName("td");
+	var table = document.getElementById("pick_cards"); 
+	var cells = table.getElementsByTagName("div"); 
+	for (var i = 0; i < cells.length; i++) { 
+		 console.log(i);
+	 //    var status = cells[i].getAttribute("data-status"); 
+	 //    if ( status == "open" ) { 
+	 //        // grab the data 
+	 //    }
+	}
+
+}
+
+
+//load this when DOM is loaded, does awesome things
+function loaded(){
+	//loadDeck(deck);
+	//deckInit(deck);
+	phaseOne();
+	console.log("dope! made the DOM-challenge!");
+	// for (var i = 0; i < deck.length; i++){
+	// 	//console.log(deck[i]);
+	// }
+
+	// for (var i = 0; i<200; i++){
+	// 	var card = randomCard(deck);
+	// 	console.log(i, card);
+	// 	if ( card == null){
+	// 		console.log("blupp");
+	// 		i = 201;
+	// 		break;
+	// 	}
+	// }
+
+}
+
+//actually fires when DOM is loaded
+window.onload = loaded();
+
+
+
+// function loadDeck(deck){
+// 	for (var i = 0; i<deck.length; i++){
+// 		deck[i]=i+".jpg";
+// 	}
+// 	return deck;
+// }
