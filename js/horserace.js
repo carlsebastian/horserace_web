@@ -1,5 +1,5 @@
 //Horserace Js file
-var deck = [];
+var deck = new Array(52);
 
 function loaded(){
 	//comment
