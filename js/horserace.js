@@ -17,7 +17,8 @@ function pageLoad(func) {
 
 // pass the function you want to call at 'window.onload', in the function defined above
 pageLoad(function(){
-    initiateTableButtons("pick_cards", "div", 4, "picksuite");
+    initiateTableButtons("pick_cards", "div", 0,4, "picksuite", pickSuite);
+    initiateTableButtons("pick_round_amount", "td", 0,13, "rounds", pickRounds);
     //initiateButton();
     document.getElementById("pick_cards_next").addEventListener("click", page2, false);
     document.getElementById("pick_round_amount_back").addEventListener("click", page1, false);
@@ -26,13 +27,13 @@ pageLoad(function(){
     //document.getElementById("pick_cards").classList.toggle("hidden");
 });
 
-function initiateTableButtons(element, name, size, id){
+function initiateTableButtons(element, name, startSize, size, id, func){
     console.log("loaded");
     var table = document.getElementById(element); 
     var cells = table.getElementsByTagName(name); 
-    for (var i = 0; i < size; i++) {
+    for (var i = startSize; i < size; i++) {
         cells[i].id = id+i;
-        cells[i].addEventListener("click", pickSuite, false);
+        cells[i].addEventListener("click", func, false);
     }
 }
 
@@ -51,26 +52,20 @@ function page3(){
     //add visibility to board
 }
 
-//below is hardcoded, maybe change html?
-// function initiateButton(){
-//     pick_cards.addEventListener("click", hideThis, false); //(showThis("pick_round_amount"))
-// }
-
 function hideThis(func){
     this.classList.toggle("hidden");
 }
-function hideEl(el, show){
-    this.classList.toggle("hidden");
+
+var rounds = 7;
+function pickRounds(){
+    rounds=parseInt(this.id.match(/\d+/), 10)+1;
+    console.log(rounds);
 }
 
-function showThis(el){
-    el.classList.toggle("hidden");
-}
-
-//var suits=[h='0', d='0', c='0', s='0']; 
+//var suits =[h='0', d='0', c='0', s='0']; 
 var suits = [0, 0, 0, 0]; 
 function pickSuite(){
-    position = this.id.match(/\d/);
+    position = this.id.match(/\d/)[0];
     if (suits[position]==1){
         suits[position]=0;
     } else{
