@@ -24,7 +24,14 @@ pageLoad(function(){
     document.getElementById("pick_round_amount_back").addEventListener("click", page1, false);
     document.getElementById("pick_round_amount").classList.toggle("hidden");
     splash(1, "Väkommen till Horserace!", "splash");
+
+    //debugfunction
+    debug();
 });
+
+function debug(){
+    page3();
+}
 
 var rounds = -1;
 var suits = [0, 0, 0, 0];
@@ -49,13 +56,8 @@ function initiateTableButtons(element, name, startSize, size, id, func){
     }
 }
 
-// function createDeck(){
-
-// }
-
 function toggleClass(el, classy){
     el.classList.toggle(classy);
-    console.log(el, classy);
 }
 
 function pickRounds(){
@@ -75,10 +77,6 @@ function checkPickRounds(){
     }
 }
 
-function activateButton(){
-
-}
-
 //var suits =[h='0', d='0', c='0', s='0']; 
 function pickSuite(){
     toggleClass(this, "active");
@@ -92,13 +90,18 @@ function pickSuite(){
     checkPickSuite();
 }
 
-function checkPickSuite(){
-    var len=0;
+function countPickSuite(){
+    var len = 0;
     for (var i = 0; i<suits.length; i++){
         if (suits[i]>0){
             len++;
         }
     }
+    return len;
+}
+
+function checkPickSuite(){
+    var len = countPickSuite();
     if (len==0 ){
         changeHTML("status","Välj minst två valörer för att fortsätta",false);
         document.getElementById("pick_cards_next").removeEventListener("click", page2, false);
@@ -142,4 +145,29 @@ function page2(){
 function page3(){
     document.getElementById("pick_round_amount").classList.toggle("hidden");
     //add visibility to board
+    createDeck(countPickSuite()*12);
+}
+
+var cardDeck = null;
+var cardDeckLeft = -1;
+function createDeck(size){
+    cardDeck = new Array(size);
+    cardDeckLeft = size;
+    for (var i=0; i < cardDeck.length ; i ++ ){
+        cardDeck[i]=i;
+    }
+    console.log(cardDeck);
+    while (cardDeck.length > 0){
+        console.log(drawCard());
+    }
+    console.log(cardDeck.length);
+}
+
+function drawCard(){
+    var cardsLeft = cardDeck.length;
+    if ( cardsLeft == 0){
+        return null;
+    }
+    changeHTML("status",(cardDeckLeft+" kort kvar"),false)
+    return cardDeck.splice(Math.floor((Math.random() * cardsLeft)), 1);
 }
