@@ -17,7 +17,7 @@ function pageLoad(func) {
 
 // pass the function you want to call at 'window.onload', in the function defined above
 pageLoad(function(){
-    initiateTableButtons("pick_cards", "div", 0,4, "picksuite", pickSuite);
+    initiateTableButtons("pick_cards", "div", 0,4, "pickSuit", pickSuit);
     initiateTableButtons("pick_round_amount", "td", 0,12, "rounds", pickRounds);
     //buttons
     
@@ -31,6 +31,18 @@ pageLoad(function(){
 
 function debug(){
     page3();
+    suits=[1,0,1,0];
+    console.log(suits);
+    createDeck(24);
+    suits=[1,0,0,1];
+    console.log(suits);
+    createDeck(24);
+    suits=[1,1,0,0];
+    console.log(suits);
+    createDeck(24);
+    suits=[0,1,1,0];
+    console.log(suits);
+    createDeck(24);
 }
 
 var rounds = -1;
@@ -78,7 +90,7 @@ function checkPickRounds(){
 }
 
 //var suits =[h='0', d='0', c='0', s='0']; 
-function pickSuite(){
+function pickSuit(){
     toggleClass(this, "active");
     position = this.id.match(/\d/)[0];
     if (suits[position]==1){
@@ -87,10 +99,10 @@ function pickSuite(){
         suits[position]=1;
     }
     console.log("added!",this.id, suits[position], suits);
-    checkPickSuite();
+    checkPickSuit();
 }
 
-function countPickSuite(){
+function countPickSuit(){
     var len = 0;
     for (var i = 0; i<suits.length; i++){
         if (suits[i]>0){
@@ -100,8 +112,8 @@ function countPickSuite(){
     return len;
 }
 
-function checkPickSuite(){
-    var len = countPickSuite();
+function checkPickSuit(){
+    var len = countPickSuit();
     if (len==0 ){
         changeHTML("status","Välj minst två valörer för att fortsätta",false);
         document.getElementById("pick_cards_next").removeEventListener("click", page2, false);
@@ -132,7 +144,7 @@ function splash(time, message, div){
 function page1(){
     document.getElementById("pick_cards").classList.toggle("hidden");
     document.getElementById("pick_round_amount").classList.toggle("hidden");
-    checkPickSuite();
+    checkPickSuit();
 }
 
 function page2(){
@@ -145,22 +157,64 @@ function page2(){
 function page3(){
     document.getElementById("pick_round_amount").classList.toggle("hidden");
     //add visibility to board
-    createDeck(countPickSuite()*12);
+    createDeck(countPickSuit()*12);
 }
 
 var cardDeck = null;
 var cardDeckLeft = -1;
+
+function addSuit(){
+
+}
+
 function createDeck(size){
     cardDeck = new Array(size);
     cardDeckLeft = size;
-    for (var i=0; i < cardDeck.length ; i ++ ){
-        cardDeck[i]=i;
+    var control=0;
+    var add = 0;
+        for (var i=0; i < cardDeck.length; i ++ ){
+        if (i%12 == 0){
+            if (suits[control] == 0){
+                while (suits[control] == 0){
+                    control ++;
+                    console.log("control: ", control);
+                    add += 12;
+                    console.log("add: ", add);
+                }
+            }
+            control++;
+        }
+        cardDeck[i] = i+add;
     }
+
+    // for (var i=0; i < cardDeck.length; i ++ ){
+    //     if (i%12 == 0){
+    //         if (suits[control] == 1){
+    //             null;
+    //         }
+    //         else {
+    //             while (suits[control] == 0){
+    //                 control ++;
+    //                 console.log("control: ", control);
+    //                 add += 12;
+    //                 console.log("add: ", add);
+    //             }
+
+    //         }
+    //         control++;
+    //     }
+
+
+    //     cardDeck[i] = i+add;
+    // }
+    // for (var i=0; i < cardDeck.length; i ++ ){
+    //     cardDeck[i] = i;
+    // }
     console.log(cardDeck);
-    while (cardDeck.length > 0){
-        console.log(drawCard());
-    }
-    console.log(cardDeck.length);
+    // while (cardDeck.length > 0){
+    //     console.log(drawCard());
+    // }
+    // console.log(cardDeck.length);
 }
 
 function drawCard(){
@@ -170,4 +224,8 @@ function drawCard(){
     }
     changeHTML("status",(cardDeckLeft+" kort kvar"),false)
     return cardDeck.splice(Math.floor((Math.random() * cardsLeft)), 1);
+}
+
+function moveCard(){
+
 }
