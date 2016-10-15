@@ -26,11 +26,11 @@ pageLoad(function(){
     splash(1, "Väkommen till Horserace!", "splash");
 
     //debugfunction
-    debug();
+    //debug();
 });
 
 function debug(){
-    page3();
+    document.getElementById("status").innerHTML = "DEBUG MODE, remove debug from pageLoad to fix";
     suits=[1,0,1,0];
     console.log(suits);
     createDeck(24);
@@ -163,8 +163,8 @@ function page3(){
 var cardDeck = null;
 var cardDeckLeft = -1;
 
-function addSuit(){
-
+function showCard(folder, prefix,number, infix, suffix){
+    return folder+"/"+prefix+number+infix+suffix;
 }
 
 function createDeck(size){
@@ -177,9 +177,9 @@ function createDeck(size){
             if (suits[control] == 0){
                 while (suits[control] == 0){
                     control ++;
-                    console.log("control: ", control);
                     add += 12;
-                    console.log("add: ", add);
+                    // console.log("add: ", add);
+                    // console.log("control: ", control);
                 }
             }
             control++;
@@ -187,33 +187,10 @@ function createDeck(size){
         cardDeck[i] = i+add;
     }
 
-    // for (var i=0; i < cardDeck.length; i ++ ){
-    //     if (i%12 == 0){
-    //         if (suits[control] == 1){
-    //             null;
-    //         }
-    //         else {
-    //             while (suits[control] == 0){
-    //                 control ++;
-    //                 console.log("control: ", control);
-    //                 add += 12;
-    //                 console.log("add: ", add);
-    //             }
-
-    //         }
-    //         control++;
-    //     }
-
-
-    //     cardDeck[i] = i+add;
-    // }
-    // for (var i=0; i < cardDeck.length; i ++ ){
-    //     cardDeck[i] = i;
-    // }
     console.log(cardDeck);
-    // while (cardDeck.length > 0){
-    //     console.log(drawCard());
-    // }
+    while (cardDeck.length > 0){
+        console.log(showCard("img","",drawCard(),"",".jpg"));
+    }
     // console.log(cardDeck.length);
 }
 
