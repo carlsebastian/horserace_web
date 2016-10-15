@@ -18,7 +18,7 @@ function pageLoad(func) {
 // pass the function you want to call at 'window.onload', in the function defined above
 pageLoad(function(){
     initiateTableButtons("pick_cards", "div", 0,4, "picksuite", pickSuite);
-    initiateTableButtons("pick_round_amount", "td", 0,13, "rounds", pickRounds);
+    initiateTableButtons("pick_round_amount", "td", 0,12, "rounds", pickRounds);
     //buttons
     document.getElementById("pick_cards_next").addEventListener("click", page2, false);
     document.getElementById("pick_round_amount_back").addEventListener("click", page1, false);
@@ -28,7 +28,17 @@ pageLoad(function(){
 });
 
 var rounds = -1;
-var suits = [0, 0, 0, 0]; 
+var suits = [0, 0, 0, 0];
+
+
+function changeHTML(divid, text, add){
+    if (add) {
+        document.getElementById(divid).innerHTML += text;
+    }
+    else {
+        document.getElementById(divid).innerHTML = text;
+    }
+}
 
 function initiateTableButtons(element, name, startSize, size, id, func){
     console.log("loaded");
@@ -40,19 +50,33 @@ function initiateTableButtons(element, name, startSize, size, id, func){
     }
 }
 
-function createDeck(){
+// function createDeck(){
 
+// }
+
+function toggleClass(el, classy){
+    el.classList.toggle(classy);
+    console.log(el, classy);
 }
 
-function hideThis(func){    this.classList.toggle("hidden");    func()  }
-
 function pickRounds(){
+    toggleClass(this, "active");
     rounds=parseInt(this.id.match(/\d+/), 10)+1;
     console.log(rounds);
+    checkPickRounds();
+}
+function checkPickRounds(){
+    if (rounds > 0){
+        changeHTML("status",("Du har valt "+rounds+" kort. Tryck vidare för att börja spela"),false);
+    }
+    else {
+        changeHTML("status","Välj antal kort som ska spelas", false);
+    }
 }
 
 //var suits =[h='0', d='0', c='0', s='0']; 
 function pickSuite(){
+    toggleClass(this, "active");
     position = this.id.match(/\d/)[0];
     if (suits[position]==1){
         suits[position]=0;
@@ -60,7 +84,30 @@ function pickSuite(){
         suits[position]=1;
     }
     console.log("added!",this.id, suits[position], suits);
+    checkPickSuite();
 }
+
+function checkPickSuite(){
+    var len=0;
+    for (var i = 0; i<suits.length; i++){
+        if (suits[i]>0){
+            len++;
+        }
+    }
+    if (len==0 ){
+        changeHTML("status","Välj minst två valörer för att fortsätta",false);
+    }
+    if (len == 1){
+        changeHTML("status", "Välj en till valör", false);
+    }
+    if (len > 1){
+        changeHTML("status", "Välj fler valörer eller gå vidare", false);
+    }
+    if (len == 4){
+        changeHTML("status", "Gå vidare", false);
+    }
+}
+
  //splashscreen for displaying temporary messages
 function splash(time, message, div){
     var el = document.getElementById(div);
@@ -73,11 +120,14 @@ function splash(time, message, div){
 function page1(){
     document.getElementById("pick_cards").classList.toggle("hidden");
     document.getElementById("pick_round_amount").classList.toggle("hidden");
+    checkPickSuite();
 }
 
 function page2(){
     document.getElementById("pick_cards").classList.toggle("hidden");
     document.getElementById("pick_round_amount").classList.toggle("hidden");
+    checkPickRounds();
+    // changeHTML("status","Välj antal kort", false);
 }
 
 function page3(){
