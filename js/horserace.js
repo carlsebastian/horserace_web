@@ -19,13 +19,16 @@ function pageLoad(func) {
 pageLoad(function(){
     initiateTableButtons("pick_cards", "div", 0,4, "picksuite", pickSuite);
     initiateTableButtons("pick_round_amount", "td", 0,13, "rounds", pickRounds);
-    //initiateButton();
+    //buttons
     document.getElementById("pick_cards_next").addEventListener("click", page2, false);
     document.getElementById("pick_round_amount_back").addEventListener("click", page1, false);
     document.getElementById("pick_round_amount_next").addEventListener("click", page3, false);
     document.getElementById("pick_round_amount").classList.toggle("hidden");
-    //document.getElementById("pick_cards").classList.toggle("hidden");
+    splash(1, "Väkommen till Horserace!", "splash");
 });
+
+var rounds = -1;
+var suits = [0, 0, 0, 0]; 
 
 function initiateTableButtons(element, name, startSize, size, id, func){
     console.log("loaded");
@@ -35,6 +38,36 @@ function initiateTableButtons(element, name, startSize, size, id, func){
         cells[i].id = id+i;
         cells[i].addEventListener("click", func, false);
     }
+}
+
+function createDeck(){
+
+}
+
+function hideThis(func){    this.classList.toggle("hidden");    func()  }
+
+function pickRounds(){
+    rounds=parseInt(this.id.match(/\d+/), 10)+1;
+    console.log(rounds);
+}
+
+//var suits =[h='0', d='0', c='0', s='0']; 
+function pickSuite(){
+    position = this.id.match(/\d/)[0];
+    if (suits[position]==1){
+        suits[position]=0;
+    } else{
+        suits[position]=1;
+    }
+    console.log("added!",this.id, suits[position], suits);
+}
+ //splashscreen for displaying temporary messages
+function splash(time, message, div){
+    var el = document.getElementById(div);
+    el.innerHTML = message;
+    el.classList.toggle("hidden");
+    window.setTimeout(function(){el.classList.toggle("hidden")}, time);
+
 }
 
 function page1(){
@@ -50,30 +83,4 @@ function page2(){
 function page3(){
     document.getElementById("pick_round_amount").classList.toggle("hidden");
     //add visibility to board
-}
-
-function hideThis(func){
-    this.classList.toggle("hidden");
-}
-
-var rounds = 7;
-function pickRounds(){
-    rounds=parseInt(this.id.match(/\d+/), 10)+1;
-    console.log(rounds);
-}
-
-//var suits =[h='0', d='0', c='0', s='0']; 
-var suits = [0, 0, 0, 0]; 
-function pickSuite(){
-    position = this.id.match(/\d/)[0];
-    if (suits[position]==1){
-        suits[position]=0;
-    } else{
-        suits[position]=1;
-    }
-    console.log("added!",this.id, suits[position], suits);
-}
-
-function action(){
-    console.log("action!");
 }
