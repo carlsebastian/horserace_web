@@ -18,8 +18,12 @@ function pageLoad(func) {
 // pass the function you want to call at 'window.onload', in the function defined above
 pageLoad(function(){
     initiateTableButtons("pick_cards", "div", 4, "picksuite");
-    initiateButton();
-    document.getElementById("pick_cards_next").addEventListener("click", hideEl, false);
+    //initiateButton();
+    document.getElementById("pick_cards_next").addEventListener("click", page2, false);
+    document.getElementById("pick_round_amount_back").addEventListener("click", page1, false);
+    document.getElementById("pick_round_amount_next").addEventListener("click", page3, false);
+    document.getElementById("pick_round_amount").classList.toggle("hidden");
+    //document.getElementById("pick_cards").classList.toggle("hidden");
 });
 
 function initiateTableButtons(element, name, size, id){
@@ -32,10 +36,25 @@ function initiateTableButtons(element, name, size, id){
     }
 }
 
-//below is hardcoded, maybe change html?
-function initiateButton(){
-    pick_cards.addEventListener("click", hideThis, false); //(showThis("pick_round_amount"))
+function page1(){
+    document.getElementById("pick_cards").classList.toggle("hidden");
+    document.getElementById("pick_round_amount").classList.toggle("hidden");
 }
+
+function page2(){
+    document.getElementById("pick_cards").classList.toggle("hidden");
+    document.getElementById("pick_round_amount").classList.toggle("hidden");
+}
+
+function page3(){
+    document.getElementById("pick_round_amount").classList.toggle("hidden");
+    //add visibility to board
+}
+
+//below is hardcoded, maybe change html?
+// function initiateButton(){
+//     pick_cards.addEventListener("click", hideThis, false); //(showThis("pick_round_amount"))
+// }
 
 function hideThis(func){
     this.classList.toggle("hidden");
