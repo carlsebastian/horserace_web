@@ -20,9 +20,8 @@ pageLoad(function(){
     initiateTableButtons("pick_cards", "div", 0,4, "picksuite", pickSuite);
     initiateTableButtons("pick_round_amount", "td", 0,12, "rounds", pickRounds);
     //buttons
-    document.getElementById("pick_cards_next").addEventListener("click", page2, false);
+    
     document.getElementById("pick_round_amount_back").addEventListener("click", page1, false);
-    document.getElementById("pick_round_amount_next").addEventListener("click", page3, false);
     document.getElementById("pick_round_amount").classList.toggle("hidden");
     splash(1, "Väkommen till Horserace!", "splash");
 });
@@ -68,10 +67,16 @@ function pickRounds(){
 function checkPickRounds(){
     if (rounds > 0){
         changeHTML("status",("Du har valt "+rounds+" kort. Tryck vidare för att börja spela"),false);
+        document.getElementById("pick_round_amount_next").addEventListener("click", page3, false);
     }
     else {
         changeHTML("status","Välj antal kort som ska spelas", false);
+        document.getElementById("pick_round_amount_next").removeEventListener("click", page3, false);
     }
+}
+
+function activateButton(){
+
 }
 
 //var suits =[h='0', d='0', c='0', s='0']; 
@@ -96,15 +101,19 @@ function checkPickSuite(){
     }
     if (len==0 ){
         changeHTML("status","Välj minst två valörer för att fortsätta",false);
+        document.getElementById("pick_cards_next").removeEventListener("click", page2, false);
     }
     if (len == 1){
         changeHTML("status", "Välj en till valör", false);
+        document.getElementById("pick_cards_next").removeEventListener("click", page2, false);
     }
     if (len > 1){
         changeHTML("status", "Välj fler valörer eller gå vidare", false);
+        document.getElementById("pick_cards_next").addEventListener("click", page2, false);
     }
     if (len == 4){
         changeHTML("status", "Gå vidare", false);
+        document.getElementById("pick_cards_next").addEventListener("click", page2, false);
     }
 }
 
