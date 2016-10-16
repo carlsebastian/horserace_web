@@ -31,18 +31,41 @@ pageLoad(function(){
 
 function debug(){
     document.getElementById("status").innerHTML = "DEBUG MODE, remove debug from pageLoad to fix";
-    suits=[1,0,1,0];
+    // suits=[1,0,1,0];
+    // console.log(suits);
+    // createDeck(24);
+    // testDeck();
+
+    // suits=[1,0,0,1];
+    // console.log(suits);
+    // createDeck(24);
+    // testDeck();
+
+    // suits=[1,1,0,0];
+    // console.log(suits);
+    // createDeck(24);
+    // testDeck();
+
+    // suits=[0,1,1,0];
+    // console.log(suits);
+    // createDeck(24);
+    // testDeck();
+
+    suits=[1,1,1,1];
     console.log(suits);
-    createDeck(24);
-    suits=[1,0,0,1];
-    console.log(suits);
-    createDeck(24);
-    suits=[1,1,0,0];
-    console.log(suits);
-    createDeck(24);
-    suits=[0,1,1,0];
-    console.log(suits);
-    createDeck(24);
+    console.log(cardDeck);
+    createDeck(47);
+    testDeck();
+
+    document.getElementById("status").innerHTML = "DEBUG MODE, remove debug from pageLoad to fix";
+}
+
+function testDeck(){
+    var card = 0;
+    while (cardDeck.length > 0){
+        card = drawCard();
+        document.getElementById("wrapper").innerHTML+= "<img src='"+showCard("images/cards","card",card,"",".jpg")+"' alt='card"+card+"'>";
+    }
 }
 
 var rounds = -1;
@@ -158,6 +181,7 @@ function page3(){
     document.getElementById("pick_round_amount").classList.toggle("hidden");
     //add visibility to board
     createDeck(countPickSuit()*12);
+    testDeck();
 }
 
 var cardDeck = null;
@@ -168,11 +192,12 @@ function showCard(folder, prefix,number, infix, suffix){
 }
 
 function createDeck(size){
-    cardDeck = new Array(size);
+    cardDeck = new Array( size );
     cardDeckLeft = size;
     var control=0;
     var add = 0;
-        for (var i=0; i < cardDeck.length; i ++ ){
+
+    for (var i=0; i < cardDeck.length; i ++ ){
         if (i%12 == 0){
             if (suits[control] == 0){
                 while (suits[control] == 0){
@@ -185,12 +210,16 @@ function createDeck(size){
             control++;
         }
         cardDeck[i] = i+add;
+        // //if (i%10 != 0){
+        //     cardDeck[i] = i+add;
+        // //}
+        
     }
 
     console.log(cardDeck);
-    while (cardDeck.length > 0){
-        console.log(showCard("img","",drawCard(),"",".jpg"));
-    }
+    // while (cardDeck.length > 0){
+    //     console.log(showCard("images/cards","card",drawCard(),"",".jpg"));
+    // }
     // console.log(cardDeck.length);
 }
 
@@ -199,6 +228,7 @@ function drawCard(){
     if ( cardsLeft == 0){
         return null;
     }
+    cardDeckLeft--;
     changeHTML("status",(cardDeckLeft+" kort kvar"),false)
     return cardDeck.splice(Math.floor((Math.random() * cardsLeft)), 1);
 }
