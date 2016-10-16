@@ -17,6 +17,12 @@ function pageLoad(func) {
 
 // pass the function you want to call at 'window.onload', in the function defined above
 pageLoad(function(){
+    //should not be there..
+    var content = document.getElementById("wrapper").innerHTML;
+    document.getElementById("wrapper").innerHTML = "<a href='index.html'><button id='restart'>Omstart</button></a>"+content;
+    document.getElementById("restart").addEventListener("click", function(){document.location.reload(true)}, false);
+
+    //
     initiateTableButtons("pick_cards", "div", 0,4, "pickSuit", pickSuit);
     initiateTableButtons("pick_round_amount", "td", 0,12, "rounds", pickRounds);
     //buttons
@@ -66,6 +72,7 @@ function testDeck(){
         card = drawCard();
         document.getElementById("wrapper").innerHTML+= "<img src='"+showCard("images/cards","card",card,"",".jpg")+"' alt='card"+card+"'>";
     }
+    console.log("tested deck");
 }
 
 var rounds = -1;
