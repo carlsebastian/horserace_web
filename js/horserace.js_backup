@@ -9,40 +9,40 @@ function chooseSuit(){
 
 
 
-// //below is prob shit, begin the right way next time mofo
-// //create with right amount of cards..
-// var deck = new Array(48);
-// var cardsLeft = 48;
-// var dup=[];
+//below is prob shit, begin the right way next time mofo
+//create with right amount of cards..
+var deck = new Array(48);
+var cardsLeft = 48;
+var dup=[];
 
-// function deckInit(deck){
-// 	for (var i = 0; i<48; i++){
-// 		deck[i]=i+".jpg";
-// 	}
-// }
+function deckInit(deck){
+	for (var i = 0; i<48; i++){
+		deck[i]=i+".jpg";
+	}
+}
 
-// //when a card is chosen this card should be removed from the deck
-// function removeCard(deck, card){
-// 	deck[card]="0";
-// }
+//when a card is chosen this card should be removed from the deck
+function removeCard(deck, card){
+	deck[card]="0";
+}
 
-// //chooses a "random" card, hack this you mofo, avoid to get drunk.
-// function randomCard(deck){
-// 	var card = Math.floor((Math.random() * cardsLeft));
+//chooses a "random" card, hack this you mofo, avoid to get drunk.
+function randomCard(deck){
+	var card = Math.floor((Math.random() * cardsLeft));
 
-// 	if ( cardsLeft == 0){
-// 		return null;
-// 	}
+	if ( cardsLeft == 0){
+		return null;
+	}
 
-// 	// if (deck[card] == "") {
-// 	// 	randomCard(deck);
-// 	// }
+	// if (deck[card] == "") {
+	// 	randomCard(deck);
+	// }
 	
-// 	deck = removeCard(deck, card);
-// 	dup.push(deck);
-// 	cardsLeft--;
-// 	return card;
-// }
+	deck = removeCard(deck, card);
+	dup.push(deck);
+	cardsLeft--;
+	return card;
+}
 
 function phaseOne(){
 	//get right table in DOM

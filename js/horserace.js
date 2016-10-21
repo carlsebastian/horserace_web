@@ -63,7 +63,33 @@ function debug(){
     createDeck(47);
     testDeck();
 
+    for (var i = 0; i < 10; i++){
+        console.log(checkColour( -1));
+    }
+
     document.getElementById("status").innerHTML = "DEBUG MODE, remove debug from pageLoad to fix";
+}
+
+function checkColour(card){
+    var position = 0;
+    switch (card){
+        case (card > 35):
+            position = 3;
+            break; 
+        case (card > 24):
+            position = 2;
+            break;
+        case (card > 11):
+            position = 1;
+            break;
+        case (card > 0):
+            position = 0;
+            break;
+        default: 
+            position = -1;
+            break; 
+    }
+    return position;
 }
 
 function testDeck(){
@@ -181,7 +207,6 @@ function page2(){
     document.getElementById("pick_cards").classList.toggle("hidden");
     document.getElementById("pick_round_amount").classList.toggle("hidden");
     checkPickRounds();
-    // changeHTML("status","Välj antal kort", false);
 }
 
 function page3(){
