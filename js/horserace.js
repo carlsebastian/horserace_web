@@ -25,10 +25,15 @@ pageLoad(function(){
     //
     initiateTableButtons("pick_cards", "div", 0,4, "pickSuit", pickSuit);
     initiateTableButtons("pick_round_amount", "td", 0,12, "rounds", pickRounds);
+    document.getElementById("draw_card").addEventListener("click", function(){ card(); }, false);
     //buttons
     
+    //document.getElementById("draw_card").onclick = ;
+
+
     document.getElementById("pick_round_amount_back").addEventListener("click", page1, false);
     document.getElementById("pick_round_amount").classList.toggle("hidden");
+    document.getElementById("board").classList.toggle("hidden");
     splash(1, "Väkommen till Horserace!", "splash");
 
     //debugfunction
@@ -37,36 +42,15 @@ pageLoad(function(){
 
 function debug(){
     document.getElementById("status").innerHTML = "DEBUG MODE, remove debug from pageLoad to fix";
-    // suits=[1,0,1,0];
-    // console.log(suits);
-    // createDeck(24);
-    // testDeck();
-
-    // suits=[1,0,0,1];
-    // console.log(suits);
-    // createDeck(24);
-    // testDeck();
-
-    // suits=[1,1,0,0];
-    // console.log(suits);
-    // createDeck(24);
-    // testDeck();
-
-    // suits=[0,1,1,0];
-    // console.log(suits);
-    // createDeck(24);
-    // testDeck();
 
     suits=[1,1,1,1];
     console.log(suits);
     console.log(cardDeck);
     createDeck(47);
-    testDeck();
-
-    for (var i = 0; i < 10; i++){
-        console.log(checkColour( -1));
-    }
-
+    //testDeck();
+    // for (var i = 0; i < 10; i++){
+    //     console.log(checkColour( -1));
+    // }
     document.getElementById("status").innerHTML = "DEBUG MODE, remove debug from pageLoad to fix";
 }
 
@@ -92,17 +76,21 @@ function checkColour(card){
     return position;
 }
 
-function testDeck(){
+function card(){
+    console.log("card", cardDeck.length);
     var card = 0;
-    while (cardDeck.length > 0){
+    if ( cardDeck.length > 0 ){
         card = drawCard();
-        document.getElementById("wrapper").innerHTML+= "<img src='"+showCard("images/cards","card",card,"",".jpg")+"' alt='card"+card+"'>";
+        document.getElementById("board_cards").innerHTML += "<img src='"+showCard("images/cards","card",card,"",".jpg")+"' alt='card"+card+"'>";
     }
-    console.log("tested deck");
+    console.log("card", cardDeck.length);
+    document.getElementById("draw_card").addEventListener("click", card, false);
 }
 
 var rounds = -1;
 var suits = [0, 0, 0, 0];
+var cardDeck = null;
+var cardDeckLeft = -1;
 
 
 function changeHTML(divid, text, add){
@@ -134,6 +122,7 @@ function pickRounds(){
     console.log(rounds);
     checkPickRounds();
 }
+
 function checkPickRounds(){
     if (rounds > 0){
         changeHTML("status",("Du har valt "+rounds+" kort. Tryck vidare för att börja spela"),false);
@@ -197,34 +186,13 @@ function splash(time, message, div){
 
 }
 
-function page1(){
-    document.getElementById("pick_cards").classList.toggle("hidden");
-    document.getElementById("pick_round_amount").classList.toggle("hidden");
-    checkPickSuit();
-}
-
-function page2(){
-    document.getElementById("pick_cards").classList.toggle("hidden");
-    document.getElementById("pick_round_amount").classList.toggle("hidden");
-    checkPickRounds();
-}
-
-function page3(){
-    document.getElementById("pick_round_amount").classList.toggle("hidden");
-    //add visibility to board
-    createDeck(countPickSuit()*12);
-    testDeck();
-}
-
-var cardDeck = null;
-var cardDeckLeft = -1;
-
 function showCard(folder, prefix,number, infix, suffix){
     return folder+"/"+prefix+number+infix+suffix;
 }
 
 function createDeck(size){
     cardDeck = new Array( size );
+    console.log(cardDeck);
     cardDeckLeft = size;
     var control=0;
     var add = 0;
@@ -256,15 +224,45 @@ function createDeck(size){
 }
 
 function drawCard(){
+    console.log("drawCard", cardDeck.length);
     var cardsLeft = cardDeck.length;
     if ( cardsLeft == 0){
         return null;
     }
     cardDeckLeft--;
-    changeHTML("status",(cardDeckLeft+" kort kvar"),false)
+    changeHTML("status",(cardDeckLeft+" kort kvar"),false);
+    console.log("drawCard", cardDeck.length);
     return cardDeck.splice(Math.floor((Math.random() * cardsLeft)), 1);
 }
 
-function moveCard(){
 
+function page1(){
+    document.getElementById("pick_cards").classList.toggle("hidden");
+    document.getElementById("pick_round_amount").classList.toggle("hidden");
+    checkPickSuit();
+}
+
+function page2(){
+    document.getElementById("pick_cards").classList.toggle("hidden");
+    document.getElementById("pick_round_amount").classList.toggle("hidden");
+    checkPickRounds();
+}
+
+function page3(){
+    document.getElementById("pick_round_amount").classList.toggle("hidden");
+    document.getElementById("board").classList.toggle("hidden");
+    //add visibility to board
+    createDeck(countPickSuit()*12);
+    console.log(cardDeck);
+    //testDeck();
+}
+
+//debugging
+function testDeck(){
+    var card = 0;
+    while (cardDeck.length > 0){
+        card = drawCard();
+        document.getElementById("wrapper").innerHTML += "<img src='"+showCard("images/cards","card",card,"",".jpg")+"' alt='card"+card+"'>";
+    }
+    console.log("tested deck");
 }
