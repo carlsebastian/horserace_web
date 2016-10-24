@@ -15,7 +15,6 @@ function pageLoad(func) {
     }
 }
 
-// pass the function you want to call at 'window.onload', in the function defined above
 pageLoad(function(){
     //should not be there..
     var content = document.getElementById("wrapper").innerHTML;
@@ -26,47 +25,52 @@ pageLoad(function(){
     initiateTableButtons("pick_cards", "div", 0,4, "pickSuit", pickSuit);
     initiateTableButtons("pick_round_amount", "td", 0,12, "rounds", pickRounds);
     document.getElementById("draw_card").addEventListener("click", function(){ card(); }, false);
-    //buttons
-    
-    //document.getElementById("draw_card").onclick = ;
 
 
     document.getElementById("pick_round_amount_back").addEventListener("click", page1, false);
     document.getElementById("pick_round_amount").classList.toggle("hidden");
     document.getElementById("board").classList.toggle("hidden");
-    splash(1, "Väkommen till Horserace!", "splash");
+    //splash(2000, "Väkommen till Horserace!", "splash");
 
     //debugfunction
-    //debug();
+    debug();
 });
 
 function debug(){
     document.getElementById("status").innerHTML = "DEBUG MODE, remove debug from pageLoad to fix";
 
-    suits=[1,1,1,1];
-    console.log(suits);
-    console.log(cardDeck);
-    createDeck(47);
+    page2();
+    page3();
+
+    _suits=[1,1,1,1];
+    console.log(_suits);
+    console.log(_cardDeck);
+    createDeck(countPickSuit()*12);
+    //createDeck(47);
     //testDeck();
     // for (var i = 0; i < 10; i++){
     //     console.log(checkColour( -1));
     // }
     document.getElementById("status").innerHTML = "DEBUG MODE, remove debug from pageLoad to fix";
+
+    // for (var i = 0; i < 48; i++){
+    //     card();
+    // }
 }
 
 function checkColour(card){
     var position = 0;
-    switch (card){
-        case (card > 35):
+    switch (true){
+        case (card > 35 ):
             position = 3;
             break; 
-        case (card > 24):
+        case (card > 23 ):
             position = 2;
             break;
-        case (card > 11):
+        case (card > 11 ):
             position = 1;
             break;
-        case (card > 0):
+        case (card >= 0 ):
             position = 0;
             break;
         default: 
@@ -76,21 +80,54 @@ function checkColour(card){
     return position;
 }
 
-function card(){
-    console.log("card", cardDeck.length);
-    var card = 0;
-    if ( cardDeck.length > 0 ){
-        card = drawCard();
-        document.getElementById("board_cards").innerHTML += "<img src='"+showCard("images/cards","card",card,"",".jpg")+"' alt='card"+card+"'>";
+function checkLast(){
+    console.log("checkLast", findMin(_position));
+    if (findMin(_position) > _lastPosition){
+        _lastPosition++;
+        var card = drawCard();
+        var colour = checkColour(card);
+        _position[colour] --;
+        changeHTML(("stats"+colour), _position[colour]);
+        console.log("checkLastMovedBack", colour, card);
+        // splash(3000, ("Tillbaka med dig!"+ card), "splash");
+        document.getElementById("moveback").innerHTML += "<img src='"+showCard("images/cards","card",card,"",".jpg")+"' alt='card"+card+"'>";
     }
-    console.log("card", cardDeck.length);
-    document.getElementById("draw_card").addEventListener("click", card, false);
 }
 
-var rounds = -1;
-var suits = [0, 0, 0, 0];
-var cardDeck = null;
-var cardDeckLeft = -1;
+function move(card){
+    if (_cardDeck.length > 0){
+        var colour= checkColour(card);
+        _position[colour] ++;
+        var position = _position[colour];
+        // for (var i = 0; i < 4; i++){
+        //     if ( i != colour){
+        //         changeHTML(("stats"+i), "0", true);
+        //     }
+        // }
+        changeHTML(("stats"+colour), position);
+        console.log("stats"+colour);
+    }
+}
+
+function card(){
+    console.log("card", _cardDeck.length);
+    var card = 0;
+    if ( _cardDeck.length > 0 ){
+        card = drawCard();
+        document.getElementById("board_cards").innerHTML += "<img src='"+showCard("images/cards","card",card,"",".jpg")+"' alt='card"+card+"'>";
+        move(card);
+        checkLast();
+    }
+    console.log("card", _cardDeck.length);
+    document.getElementById("draw_card").addEventListener("click", card, false);    
+}
+
+var _rounds = -1;
+var _suits = [0, 0, 0, 0];
+var _position = [0, 0, 0, 0];
+var _cardDeck = null;
+var _cardDeckLeft = -1;
+var _lastPosition = 0;
 
 
 function changeHTML(divid, text, add){
@@ -118,14 +155,14 @@ function toggleClass(el, classy){
 
 function pickRounds(){
     toggleClass(this, "active");
-    rounds=parseInt(this.id.match(/\d+/), 10)+1;
-    console.log(rounds);
+    _rounds=parseInt(this.id.match(/\d+/), 10)+1;
+    console.log(_rounds);
     checkPickRounds();
 }
 
 function checkPickRounds(){
-    if (rounds > 0){
-        changeHTML("status",("Du har valt "+rounds+" kort. Tryck vidare för att börja spela"),false);
+    if (_rounds > 0){
+        changeHTML("status",("Du har valt "+_rounds+" kort. Tryck vidare för att börja spela"),false);
         document.getElementById("pick_round_amount_next").addEventListener("click", page3, false);
     }
     else {
@@ -138,19 +175,19 @@ function checkPickRounds(){
 function pickSuit(){
     toggleClass(this, "active");
     position = this.id.match(/\d/)[0];
-    if (suits[position]==1){
-        suits[position]=0;
+    if (_suits[position]==1){
+        _suits[position]=0;
     } else{
-        suits[position]=1;
+        _suits[position]=1;
     }
-    console.log("added!",this.id, suits[position], suits);
+    console.log("added!",this.id, _suits[position], _suits);
     checkPickSuit();
 }
 
 function countPickSuit(){
     var len = 0;
-    for (var i = 0; i<suits.length; i++){
-        if (suits[i]>0){
+    for (var i = 0; i<_suits.length; i++){
+        if (_suits[i]>0){
             len++;
         }
     }
@@ -191,16 +228,16 @@ function showCard(folder, prefix,number, infix, suffix){
 }
 
 function createDeck(size){
-    cardDeck = new Array( size );
-    console.log(cardDeck);
-    cardDeckLeft = size;
+    _cardDeck = new Array( size );
+    console.log(_cardDeck);
+    _cardDeckLeft = size;
     var control=0;
     var add = 0;
 
-    for (var i=0; i < cardDeck.length; i ++ ){
+    for (var i=0; i < _cardDeck.length; i ++ ){
         if (i%12 == 0){
-            if (suits[control] == 0){
-                while (suits[control] == 0){
+            if (_suits[control] == 0){
+                while (_suits[control] == 0){
                     control ++;
                     add += 12;
                     // console.log("add: ", add);
@@ -209,14 +246,14 @@ function createDeck(size){
             }
             control++;
         }
-        cardDeck[i] = i+add;
+        _cardDeck[i] = i+add;
         // //if (i%10 != 0){
         //     cardDeck[i] = i+add;
         // //}
         
     }
 
-    console.log(cardDeck);
+    console.log(_cardDeck);
     // while (cardDeck.length > 0){
     //     console.log(showCard("images/cards","card",drawCard(),"",".jpg"));
     // }
@@ -224,15 +261,14 @@ function createDeck(size){
 }
 
 function drawCard(){
-    console.log("drawCard", cardDeck.length);
-    var cardsLeft = cardDeck.length;
+    var cardsLeft = _cardDeck.length;
     if ( cardsLeft == 0){
         return null;
     }
-    cardDeckLeft--;
-    changeHTML("status",(cardDeckLeft+" kort kvar"),false);
-    console.log("drawCard", cardDeck.length);
-    return cardDeck.splice(Math.floor((Math.random() * cardsLeft)), 1);
+    _cardDeckLeft--;
+    changeHTML("status",(_cardDeckLeft+" kort kvar"),false);
+    console.log("drawCard", _cardDeck.length);
+    return _cardDeck.splice(Math.floor((Math.random() * cardsLeft)), 1);
 }
 
 
@@ -253,14 +289,30 @@ function page3(){
     document.getElementById("board").classList.toggle("hidden");
     //add visibility to board
     createDeck(countPickSuit()*12);
-    console.log(cardDeck);
+    console.log(_cardDeck);
     //testDeck();
+}
+
+function findMin(arr){
+    if (arr.length > 0){
+        var min = arr[0];
+        for (var i = 0; i<arr.length; i++){
+            if (arr[i] < min){
+                min = arr[i];
+            }
+        }
+        return min;
+    }
+    else {
+        return null;
+    }
+
 }
 
 //debugging
 function testDeck(){
     var card = 0;
-    while (cardDeck.length > 0){
+    while (_cardDeck.length > 0){
         card = drawCard();
         document.getElementById("wrapper").innerHTML += "<img src='"+showCard("images/cards","card",card,"",".jpg")+"' alt='card"+card+"'>";
     }
