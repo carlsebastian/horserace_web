@@ -33,7 +33,7 @@ pageLoad(function(){
     //splash(2000, "Väkommen till Horserace!", "splash");
 
     //debugfunction
-    debug();
+    //debug();
 });
 
 function debug(){
@@ -97,7 +97,7 @@ function checkLast(){
 
 function checkWon(){
     if (findMax(_position) >= _rounds){
-        splash(10000, ("Vinnare är "+ arrToColour( findMaxPosition(_position) )+"!"), "splash");
+        splash(10000, (arrToColour( findMaxPosition(_position) )+" är vinnaren!"), "splash");
     }
 }
 
@@ -130,10 +130,10 @@ function card(){
     console.log("card", _cardDeck.length);
     var card = 0;
     if ( _cardDeck.length > 0 ){
-        checkWon();
         card = drawCard();
         document.getElementById("board_cards").innerHTML += "<img src='"+showCard("images/cards","card",card,"",".jpg")+"' alt='card"+card+"'>";
         move(card);
+        checkWon();
         checkLast();
     }
     console.log("card", _cardDeck.length);
