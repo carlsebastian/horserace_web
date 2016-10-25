@@ -43,6 +43,7 @@ function debug(){
     page3();
 
     _suits=[1,1,1,1];
+    _rounds=7;
     console.log(_suits);
     console.log(_cardDeck);
     createDeck(countPickSuit()*12);
@@ -94,6 +95,22 @@ function checkLast(){
     }
 }
 
+function checkWon(){
+    if (findMax(_position) >= _rounds){
+        splash(10000, ("Vinnare är "+ arrToColour( findMaxPosition(_position) )+"!"), "splash");
+    }
+}
+
+function arrToColour(position){
+    switch (position){
+        case 0: return "hjärter"; break;
+        case 1: return "spader"; break;
+        case 2: return "klöver"; break;
+        case 3: return "ruter"; break;
+        default: return "odefinierat"; break;
+    }
+}
+
 function move(card){
     if (_cardDeck.length > 0){
         var colour= checkColour(card);
@@ -113,6 +130,7 @@ function card(){
     console.log("card", _cardDeck.length);
     var card = 0;
     if ( _cardDeck.length > 0 ){
+        checkWon();
         card = drawCard();
         document.getElementById("board_cards").innerHTML += "<img src='"+showCard("images/cards","card",card,"",".jpg")+"' alt='card"+card+"'>";
         move(card);
@@ -306,7 +324,38 @@ function findMin(arr){
     else {
         return null;
     }
+}
 
+function findMax(arr){
+    if (arr.length > 0){
+        var max = arr[0];
+        for (var i = 0; i<arr.length; i++){
+            if (arr[i] > max){
+                max = arr[i];
+            }
+        }
+        return max;
+    }
+    else {
+        return null;
+    }
+}
+
+function findMaxPosition(arr){
+    if (arr.length > 0){
+        var pos = 0;
+        var val = arr[0];
+        for (var i=0; i<arr.length; i++){
+            if (arr[i] > val){
+                val = arr[i];
+                pos = i;
+            }
+        }
+        return pos;
+    }
+    else {
+        return null;
+    }
 }
 
 //debugging
