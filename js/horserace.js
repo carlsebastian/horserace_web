@@ -82,22 +82,47 @@ function checkColour(card){
 }
 
 function checkLast(){
-    console.log("checkLast", findMin(_position));
-    if (findMin(_position) > _lastPosition){
+    console.log("checkLast", findMinActive(_position));
+    if ( findMinActive( _position ) > _lastPosition ){
         _lastPosition++;
         var card = drawCard();
         var colour = checkColour(card);
-        _position[colour] --;
+        _position[colour]--;
         changeHTML(("stats"+colour), _position[colour]);
-        console.log("checkLastMovedBack", colour, card);
+        changeHTML("controlcard",("Kontrollkort: ", _lastPosition));
+        console.log("checkLastMovedBack", colour, card, "_lastPosition", _lastPosition,"_position[colour]",_position[colour]);
         // splash(3000, ("Tillbaka med dig!"+ card), "splash");
         document.getElementById("moveback").innerHTML += "<img src='"+showCard("images/cards","card",card,"",".jpg")+"' alt='card"+card+"'>";
+    }
+}
+
+function searchi(arr, val){
+    for (var i = 0; i < arr.length; i++){
+        if (arr[i] == val){
+            return i;
+        }
+    }
+}
+
+function findMinActive(arr){
+    if (arr.length > 0){
+        var min = arr[searchi(_suits, 1)];
+        console.log("min", min);
+        for (var i = 0; i < arr.length; i++){
+            if (_suits[i] != 0){
+                if (arr[i] < min){
+                    min = arr[i];    
+                }
+            }
+        }
+        return min;
     }
 }
 
 function checkWon(){
     if (findMax(_position) >= _rounds){
         splash(10000, (arrToColour( findMaxPosition(_position) )+" är vinnaren!"), "splash");
+        resetGlobals();
     }
 }
 
@@ -138,6 +163,15 @@ function card(){
     }
     console.log("card", _cardDeck.length);
     document.getElementById("draw_card").addEventListener("click", card, false);    
+}
+
+function resetGlobals(){
+    _rounds = -1;
+    _suits = [0, 0, 0, 0];
+    _position = [0, 0, 0, 0];
+    _cardDeck = null;
+    _cardDeckLeft = -1;
+    _lastPosition = 0;
 }
 
 var _rounds = -1;
