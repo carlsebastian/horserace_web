@@ -57,12 +57,7 @@ height:40%;
 	width:60%;
 	height:40%;
 }
-.hidden {
-	display:none;
-}
-.show {
-	display: block;
-}
+
 #pick_round_amount_tbl {
 	height: 100%;
 	width: 100%;
@@ -92,12 +87,49 @@ height:40%;
 
 }
 #board {
-	width:100%;
-	height:60%;
+	width:60%;
+	height:40%;
 }
+#board_tbl {
+	height: 100%;
+	width: 100%;
+	margin-left: auto;
+	margin-right: auto;
+}
+#board_tbl div {
+	padding: 3px 5px 3px 5px;
+	background-color: white;
+	color: black;
+	height: 100%;
+	border-radius: 3px;
+}
+#board_tbl div.next_div {
+	background-color: green;
+}
+#board_tbl div.previous_div {
+	background-color: red;
+}
+#board_tbl tr {
+
+}
+#board_tbl td {
+	width: 20%;
+	padding-right: 3%;
+	padding-bottom: 3%;
+
+}
+#stepping_cards {
+	background-color: yellow;
+
+}
+
 .hidden{
 	display: none;
 }
+.show {
+	display: block;
+}
+
 .active{
 	/* offset-x | offset-y | blur-radius | color */
 	box-shadow: 0px 0px 20px black inset;
