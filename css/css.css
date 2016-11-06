@@ -87,7 +87,7 @@ height:40%;
 
 }
 #board {
-	width:60%;
+	width:100%;
 	height:40%;
 }
 #board_tbl {
@@ -120,6 +120,7 @@ height:40%;
 }
 #stepping_cards {
 	background-color: yellow;
+	width: 100%;
 
 }
 
@@ -133,4 +134,19 @@ height:40%;
 .active{
 	/* offset-x | offset-y | blur-radius | color */
 	box-shadow: 0px 0px 20px black inset;
+}
+
+.row{
+	display: block;
+	width:100%;
+}
+.card{
+	display: inline-block;
+	width: 87px; /* same as orignial, to make js work correctly*/
+}
+.pile{
+	margin-left:-65px;
+}
+.pile:first-child{
+	margin-left: 0px;
 }
