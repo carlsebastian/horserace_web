@@ -14,37 +14,40 @@ function pageLoad(func) {
         }
     }
 }
-
-var vars;
-
-_suits=[1,1,1,1];
-_rounds=7;
+var globals;
+globals = {
+  suits: [1,1,1,1],
+  rounds: 7
+}
 
 pageLoad(function(){
+    _suits=[1,1,1,1];
+    _rounds=7;
+    console.log(globals.suits);
     document.getElementById("draw_card").addEventListener("click", function(){ card(); }, false);
     document.getElementById("board").classList.toggle("hidden");
-    page3();
+    document.getElementById("restart").addEventListener("click", function(){ promptRestart(); },false);
+    startGame();
 });
 
-function page3(){
+
+
+function promptRestart(){
+  if (confirm("Are you sure?")){
+    resetGlobals();
+    pageLoad();
+    document.getElementById("board_cards").innerHTML="";
+    generateBoard(_suits, _rounds);
+  }
+}
+
+function startGame(){
     document.getElementById("board").classList.toggle("hidden");
-    createDeck(countPickSuit()*12);
-    //here´s where to problems arise
+    createDeck(4*12);
     generateBoard(_suits, _rounds);
 }
 
-
-function countPickSuit(){
-    var len = 0;
-    for (var i = 0; i<_suits.length; i++){
-        if (_suits[i]>0){
-            len++;
-        }
-    }
-    return len;
-}
-
-//related to page3
+//related to startGame
 function createDeck(size){
     _cardDeck = new Array( size );
     console.log(_cardDeck);
@@ -202,7 +205,7 @@ function findMinActive(arr){
 function checkWon(){
     if (findMax(_position) >= _rounds){
       var button =""; //"<button action='js:pageLoad();'>Click</button>";
-        splash(10000, (arrToColour( findMaxPosition(_position) )+" är vinnaren! "+button), "splash");
+        splash(4000, (arrToColour( findMaxPosition(_position) )+" är vinnaren! "+button), "splash");
         //resetGlobals();
     }
 }
@@ -235,21 +238,27 @@ function card(){
 }
 
 function resetGlobals(){
-    _rounds = -1;
-    _suits = [0, 0, 0, 0];
+    _rounds = 7;
+    _suits = [1, 1, 1, 1];
     _position = [0, 0, 0, 0];
-    _cardDeck = null;
+    // _cardDeck = null;
     _cardDeckLeft = -1;
     _lastPosition = 0;
+    // _rounds = -1;
+    // _suits = [0, 0, 0, 0];
+    // _position = [0, 0, 0, 0];
+    // _cardDeck = null;
+    // _cardDeckLeft = -1;
+    // _lastPosition = 0;
 }
 
 // var _rounds = -1;
 // var _suits = [0, 0, 0, 0];
 var _position = [0, 0, 0, 0];
-var _cardDeck = null;
-var _cardDeckLeft = -1;
-var _lastPosition = 0;
-var _activesuits = null;
+var _cardDeck;
+var _cardDeckLeft;
+var _lastPosition;
+var _activesuits;
 
 function activeSuits(arr){
     var min = findMin(arr);
@@ -261,8 +270,6 @@ function activeSuits(arr){
     }
 }
 
-
-
 function initiateTableButtons(element, name, startSize, size, id, func){
     console.log("loaded");
     var table = document.getElementById(element);
@@ -272,9 +279,6 @@ function initiateTableButtons(element, name, startSize, size, id, func){
         cells[i].addEventListener("click", func, false);
     }
 }
-
-
-
 
  //splashscreen for displaying temporary messages
 function splash(time, message, div){
@@ -298,16 +302,6 @@ function drawCard(){
     console.log("drawCard", _cardDeck.length);
     return _cardDeck.splice(Math.floor((Math.random() * cardsLeft)), 1);
 }
-
-// function generateBoard(array, rounds){
-//     var width =     document.getElementById("board_cards").offsetWidth;
-//     var height =    document.getElementById("board_cards").offsetHeight;
-// }
-
-
-
-
-
 
 function findMin(arr){
     if (arr.length > 0){
