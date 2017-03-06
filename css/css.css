@@ -119,7 +119,7 @@ height:40%;
 
 }
 #stepping_cards {
-	background-color: yellow;
+/*	background-color: yellow;*/
 	width: 100%;
 
 }
@@ -139,6 +139,10 @@ height:40%;
 .row{
 	display: block;
 	width:100%;
+	margin-top: -50px;
+}
+.row:first-child{
+	margin-top: 0px;
 }
 .card{
 	display: inline-block;
@@ -150,3 +154,15 @@ height:40%;
 .pile:first-child{
 	margin-left: 0px;
 }
+/*.knight{
+	transform: rotate(90deg);
+}*/
+#splash{
+	width: 100%;
+	height: 100%;
+	background-color: rgba(100, 205, 255, 0.6);
+	position: fixed;
+	top:0px;
+	left:0px;
+	text-align: center;
+	font: 20pt;

@@ -15,92 +15,24 @@ function pageLoad(func) {
     }
 }
 
+var vars;
+
+_suits=[1,1,1,1];
+_rounds=7;
+
 pageLoad(function(){
-    initiateTableButtons("pick_cards", "div", 0,4, "pickSuit", pickSuit);
-    initiateTableButtons("pick_round_amount", "td", 0,12, "rounds", pickRounds);
     document.getElementById("draw_card").addEventListener("click", function(){ card(); }, false);
-
-
-    document.getElementById("pick_round_amount_back").addEventListener("click", page1, false);
-    document.getElementById("pick_round_amount").classList.toggle("hidden");
     document.getElementById("board").classList.toggle("hidden");
-
-    //debug();
+    page3();
 });
 
-function debug(){
-    document.getElementById("status").innerHTML = "DEBUG MODE, remove debug from pageLoad to fix";
-    page2();
-    page3();
-    _suits=[1,1,1,1];
-    _rounds=7;
-    console.log(_suits);
-    console.log(_cardDeck);
-    createDeck(countPickSuit()*12);
-    //createDeck(47);
-    //testDeck();
-    // for (var i = 0; i < 10; i++){
-    //     console.log(checkColour( -1));
-    // }
-    document.getElementById("status").innerHTML = "DEBUG MODE, remove debug from pageLoad to fix";
-    // for (var i = 0; i < 48; i++){
-    //     card();
-    // }
-}
-
-//page logic
-function page1(){
-    document.getElementById("pick_cards").classList.toggle("hidden");
-    document.getElementById("pick_round_amount").classList.toggle("hidden");
-    checkPickSuit();
-}
-
-function page2(){
-    document.getElementById("pick_cards").classList.toggle("hidden");
-    document.getElementById("pick_round_amount").classList.toggle("hidden");
-    checkPickRounds();
-}
-
 function page3(){
-    document.getElementById("pick_round_amount").classList.toggle("hidden");
     document.getElementById("board").classList.toggle("hidden");
     createDeck(countPickSuit()*12);
     //here´s where to problems arise
     generateBoard(_suits, _rounds);
 }
 
-//related to page1
-function pickSuit(){
-    toggleClass(this, "active");
-    position = this.id.match(/\d/)[0];
-    if (_suits[position]==1){
-        _suits[position]=0;
-    } else{
-        _suits[position]=1;
-    }
-    console.log("added!",this.id, _suits[position], _suits);
-    checkPickSuit();
-}
-
-function checkPickSuit(){
-    var len = countPickSuit();
-    if (len==0 ){
-        changeHTML("status","Välj minst två valörer för att fortsätta",false);
-        document.getElementById("pick_cards_next").removeEventListener("click", page2, false);
-    }
-    if (len == 1){
-        changeHTML("status", "Välj en till valör", false);
-        document.getElementById("pick_cards_next").removeEventListener("click", page2, false);
-    }
-    if (len > 1){
-        changeHTML("status", "Välj fler valörer eller gå vidare", false);
-        document.getElementById("pick_cards_next").addEventListener("click", page2, false);
-    }
-    if (len == 4){
-        changeHTML("status", "Gå vidare", false);
-        document.getElementById("pick_cards_next").addEventListener("click", page2, false);
-    }
-}
 
 function countPickSuit(){
     var len = 0;
@@ -110,25 +42,6 @@ function countPickSuit(){
         }
     }
     return len;
-}
-
-//related to page2
-function pickRounds(){
-    toggleClass(this, "active");
-    _rounds=parseInt(this.id.match(/\d+/), 10)+1;
-    console.log(_rounds);
-    checkPickRounds();
-}
-
-function checkPickRounds(){
-    if (_rounds > 0){
-        changeHTML("status",("Du har valt "+_rounds+" kort. Tryck vidare för att börja spela"),false);
-        document.getElementById("pick_round_amount_next").addEventListener("click", page3, false);
-    }
-    else {
-        changeHTML("status","Välj antal kort som ska spelas", false);
-        document.getElementById("pick_round_amount_next").removeEventListener("click", page3, false);
-    }
 }
 
 //related to page3
@@ -161,12 +74,12 @@ function generateBoard(suits, rounds){ //array with active colours as input
     for (var i = 0; i < rounds; i++){
         board += "<img src='"+showCard("images/cards","card",53,"",".jpg") +"' alt='' class='card' id='step"+(i+1)+"''>";
     }
-    board += "</div>";
+    board += "<div class='card'><img src='"+showCard("images/cards","card",55,"",".jpg")+"' alt='goacard'></div></div>";
     for (var i = 0; i < suits.length; i++){
         console.log("suits", i);
         if (suits[i] == 1){
             board += "<div class='row' id='"
-            +arrToColour(i)+ "'><img src='"+showCard("images/cards","card",(arrToColour(i)),"",".jpg") +"' alt='' class='card'> </div>";
+            +arrToColour(i)+ "'><img src='"+showCard("images/cards","card",(arrToColour(i)),"",".jpg") +"' alt='' class='card knight'> </div>";
         }
     }
     document.getElementById("board_cards").innerHTML = board;
@@ -194,7 +107,7 @@ function checkColour(card){
     switch (true){
         case (card > 35 ):
             position = 3;
-            break; 
+            break;
         case (card > 23 ):
             position = 2;
             break;
@@ -204,9 +117,9 @@ function checkColour(card){
         case (card >= 0 ):
             position = 0;
             break;
-        default: 
+        default:
             position = -1;
-            break; 
+            break;
     }
     return position;
 }
@@ -260,20 +173,6 @@ function checkLast(){
             a = false;
         }
         console.log("html", html,"elements", elements);
-
-
-        // elements.parentNode.removeChild(elements);
-
-
-        // var elements = document.getElementsByClassName(className);
-        // while(elements.length > 0){
-        //     elements[0].parentNode.removeChild(elements[0]);
-        // }
-
-
-        // document.getElementById(arrToColour(checkColour(card))).innerHTML = "<div class='card'></div>"+html;
-        // changeHTML(("stats"+colour), position);
-        // console.log("stats"+colour);
     }
 }
 
@@ -292,7 +191,7 @@ function findMinActive(arr){
         for (var i = 0; i < arr.length; i++){
             if (_suits[i] != 0){
                 if (arr[i] < min){
-                    min = arr[i];    
+                    min = arr[i];
                 }
             }
         }
@@ -302,13 +201,11 @@ function findMinActive(arr){
 
 function checkWon(){
     if (findMax(_position) >= _rounds){
-        splash(10000, (arrToColour( findMaxPosition(_position) )+" är vinnaren!"), "splash");
+      var button =""; //"<button action='js:pageLoad();'>Click</button>";
+        splash(10000, (arrToColour( findMaxPosition(_position) )+" är vinnaren! "+button), "splash");
         //resetGlobals();
-        console.log("we have a winner!");
     }
 }
-
-
 
 function move(card){
     if (_cardDeck.length > 0){
@@ -329,13 +226,12 @@ function card(){
         card = drawCard();
         console.log(card);
         document.getElementById("pile").innerHTML += "<img src='"+showCard("images/cards","card",card,"",".jpg")+"' alt='card"+card+"' class='pile'>";
-        //document.getElementById("board_cards").innerHTML += "<img src='"+showCard("images/cards","card",card,"",".jpg")+"' alt='card"+card+"'>";
         move(card);
         checkWon();
         checkLast();
     }
     console.log("card", _cardDeck.length);
-    document.getElementById("draw_card").addEventListener("click", card, false);    
+    document.getElementById("draw_card").addEventListener("click", card, false);
 }
 
 function resetGlobals(){
@@ -347,8 +243,8 @@ function resetGlobals(){
     _lastPosition = 0;
 }
 
-var _rounds = -1;
-var _suits = [0, 0, 0, 0];
+// var _rounds = -1;
+// var _suits = [0, 0, 0, 0];
 var _position = [0, 0, 0, 0];
 var _cardDeck = null;
 var _cardDeckLeft = -1;
@@ -369,8 +265,8 @@ function activeSuits(arr){
 
 function initiateTableButtons(element, name, startSize, size, id, func){
     console.log("loaded");
-    var table = document.getElementById(element); 
-    var cells = table.getElementsByTagName(name); 
+    var table = document.getElementById(element);
+    var cells = table.getElementsByTagName(name);
     for (var i = startSize; i < size; i++) {
         cells[i].id = id+i;
         cells[i].addEventListener("click", func, false);
@@ -386,14 +282,11 @@ function splash(time, message, div){
     el.innerHTML = message;
     el.classList.toggle("hidden");
     window.setTimeout(function(){el.classList.toggle("hidden")}, time);
-
 }
 
 function showCard(folder, prefix,number, infix, suffix){
     return folder+"/"+prefix+number+infix+suffix;
 }
-
-
 
 function drawCard(){
     var cardsLeft = _cardDeck.length;
@@ -408,7 +301,7 @@ function drawCard(){
 
 // function generateBoard(array, rounds){
 //     var width =     document.getElementById("board_cards").offsetWidth;
-//     var height =    document.getElementById("board_cards").offsetHeight;   
+//     var height =    document.getElementById("board_cards").offsetHeight;
 // }
 
 
