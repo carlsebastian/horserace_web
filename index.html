@@ -1,59 +1,61 @@
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Horserace web</title>
-<link rel="stylesheet" type="text/css" href="css/css.css">
-<script src="js/horserace.js"></script>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+  <title>Horserace web</title>
+  <link rel="stylesheet" type="text/css" href="css/css.css">
+  <script src="js/horserace.js"></script>
 </head>
 <body>
-<div id="wrapper">
-<!-- <a href='index.html'> -->
-  <button id='restart'>Omstart</button>
-<!-- </a> -->
-<div id="splash" class="hidden">
-  splash-message
-</div>
-<h1>Horserace Web</h1>
+  <div id="wrapper">
+    <div id="splash" class="hidden">
+      <div id="splash_message">
+        splash-message
+      </div>
+    </div>
 
-<div class="next_div" id="pick_round_amount_next">
-  Start
-</div>
+    <div class='holder'>
+      <h1>Horserace Web</h1><span id='status'></span>
+      <span class="next_div" id="pick_round_amount_next">
+        <!-- only one button -->
+        <!-- <button id='restart'>Omstart</button> -->
+        <button id='draw'>Kort</button>
+      </span>
+    </div>
+    <br>
+    <div id="pile" class='holder'>
+      <img src='images/cards/card53.jpg' alt="deck">
+    </div>
+    <br>
+    <div id="board" class='holder'>
 
-<div id="board">
-  <button id='draw_card'>Kort</button>
-  <p>This is board</p>
-  <div id="pile">
-    <img src='images/cards/card53.jpg' alt="deck">
-  </div>
-  <div id="board_cards">
+        <div id='stepping_cards' class='row'>
+            <!-- <img src="images/cards/card55.jpg"  alt='' class='card' id='steppingCard_00'> -->
+            <img src="images/cards/card53.jpg"  alt='stepping card' class='card' id='steppingCard_01'>
+            <img src="images/cards/card53.jpg"  alt='stepping card' class='card' id='steppingCard_02'>
+            <img src="images/cards/card53.jpg"  alt='stepping card' class='card' id='steppingCard_03'>
+            <img src="images/cards/card53.jpg"  alt='stepping card' class='card' id='steppingCard_04'>
+            <img src="images/cards/card53.jpg"  alt='stepping card' class='card' id='steppingCard_05'>
+            <img src="images/cards/card53.jpg"  alt='stepping card' class='card' id='steppingCard_06'>
+            <img src="images/cards/card53.jpg"  alt='stepping card' class='card' id='steppingCard_07'>
+        </div>
 
+        <div id="board_cards">
+            <div class='row' id='hearts'>
+              <img src='images/cards/cardhearts.jpg'     alt='knight' class='card knight'>
+            </div>
+            <div class='row' id='spades'>
+              <img src='images/cards/cardspades.jpg'     alt='knight' class='card knight'>
+            </div>
+            <div class='row' id='diamonds'>
+              <img src='images/cards/carddiamonds.jpg' alt='knight' class='card knight'>
+            </div>
+            <div class='row' id='clubs'>
+              <img src='images/cards/cardclubs.jpg'       alt='knight' class='card knight'>
+            </div>
+        </div>
 
-  </div>
-<div id='status'></div>
-
-  <div id="stats" style="font-family: courier; display:none;">
-    <p>For debugging purposes</p>
-    <ul style='float: left; '>
-      <li>Hjärter</li>
-      <li>Spader</li>
-      <li>Klöver</li>
-      <li>Ruter</li>
-    </ul>
-    <ul style="display:inline; float: left;">
-        <li id="stats0">0</li>
-        <li id="stats1">0</li>
-        <li id="stats2">0</li>
-        <li id="stats3">0</li>
-    </ul>
-    <div id="controlcard">
-      Kontrollkort: 0
     </div>
   </div>
-
-  <div id="moveback">
-  </div>
-</div>
-</div>
-
 </body>
 </html>

@@ -1,93 +1,70 @@
 function pageLoad(func) {
-    // assign any pre-defined functions on 'window.onload' to a variable
     var oldOnLoad = window.onload;
-    // if there is not any function hooked to it
     if (typeof window.onload != 'function') {
-        // you can hook your function with it
         window.onload = func;
-    } else { // someone already hooked a function
+    } else {
         window.onload = function () {
-            // call the function hooked already
             oldOnLoad();
-            // call your awesome function
             func;
         }
     }
 }
-var globals;
-globals = {
+
+var reset = {
   suits: [1,1,1,1],
-  rounds: 7
+  rounds: 7,
+  position: [0,0,0,0],
+  cardDeck: 0,
+  lastPosition: 0,
+  steppingCards: []
 }
 
+var globals = reset;
+console.log(reset, globals);
+
 pageLoad(function(){
-    _suits=[1,1,1,1];
-    _rounds=7;
-    console.log(globals.suits);
-    document.getElementById("draw_card").addEventListener("click", function(){ card(); }, false);
-    document.getElementById("board").classList.toggle("hidden");
-    document.getElementById("restart").addEventListener("click", function(){ promptRestart(); },false);
-    startGame();
+  document.getElementById("draw").addEventListener("click", function(){ drawCard(); }, false);
+  // document.getElementById("restart").addEventListener("click", function(){ promptRestart(); },false);
+  initiateGame();
 });
 
-
+function initiateGame(){
+  createCardDeck();
+  generateSteppingCards();
+}
 
 function promptRestart(){
   if (confirm("Are you sure?")){
-    resetGlobals();
-    pageLoad();
-    document.getElementById("board_cards").innerHTML="";
-    generateBoard(_suits, _rounds);
+    window.location.reload();
   }
 }
 
-function startGame(){
-    document.getElementById("board").classList.toggle("hidden");
-    createDeck(4*12);
-    generateBoard(_suits, _rounds);
+function createCardDeck(){
+  globals.cardDeck = new Array(48);
+  for (var i = 0; i < 48; i++){
+    globals.cardDeck[i]=i;
+  }
 }
 
-//related to startGame
-function createDeck(size){
-    _cardDeck = new Array( size );
-    console.log(_cardDeck);
-    _cardDeckLeft = size;
-    var control=0;
-    var add = 0;
-
-    for (var i=0; i < _cardDeck.length; i ++ ){
-        if (i%12 == 0){
-            if (_suits[control] == 0){
-                while (_suits[control] == 0){
-                    control ++;
-                    add += 12;
-                }
-            }
-            control++;
-        }
-        _cardDeck[i] = i+add;
-    }
-    console.log(_cardDeck);
+function drawCard(){
+  var card = drawCardFromDeck();
+  console.log(card);
+  document.getElementById("pile").innerHTML += showCard(card);
+  //"<img src='"+showCard("images/cards","card",card,"",".jpg")+"' alt='card"+card+"' class='pile'>";
+  move(card);
+  checkWon();
+  checkLast();
 }
 
-function generateBoard(suits, rounds){ //array with active colours as input
-    console.log("generateBoard");
-    var board = document.getElementById("board_cards").innerHTML;
-    board += "<div id='stepping_cards' class='row'>";
-    for (var i = 0; i < rounds; i++){
-        board += "<img src='"+showCard("images/cards","card",53,"",".jpg") +"' alt='' class='card' id='step"+(i+1)+"''>";
-    }
-    board += "<div class='card'><img src='"+showCard("images/cards","card",55,"",".jpg")+"' alt='goacard'></div></div>";
-    for (var i = 0; i < suits.length; i++){
-        console.log("suits", i);
-        if (suits[i] == 1){
-            board += "<div class='row' id='"
-            +arrToColour(i)+ "'><img src='"+showCard("images/cards","card",(arrToColour(i)),"",".jpg") +"' alt='' class='card knight'> </div>";
-        }
-    }
-    document.getElementById("board_cards").innerHTML = board;
+function drawCardFromDeck(){
+  return globals.cardDeck.splice(Math.floor(Math.random() * (globals.cardDeck.length - 0)), 1);
 }
 
+function generateSteppingCards(){
+  for (var i = 0; i<7; i++){
+    globals.steppingCards.push(drawCardFromDeck);
+  }
+}
 
 //common functions
 function changeHTML(divid, text, add){
@@ -98,11 +75,6 @@ function changeHTML(divid, text, add){
         document.getElementById(divid).innerHTML = text;
     }
 }
-
-function toggleClass(el, classy){
-    el.classList.toggle(classy);
-}
-
 
 //card-deck functions
 function checkColour(card){
@@ -127,7 +99,86 @@ function checkColour(card){
     return position;
 }
 
-function arrToColourHuman(position){
+function checkLast(){
+    if ( findMin( globals.position ) > globals.lastPosition ){
+        globals.lastPosition++;
+        // draw new card
+        var card = drawCardFromDeck()[0];
+        console.log(card);
+        document.getElementById("steppingCard_0"+globals.lastPosition).src=getCardSrc("images/cards","card",card,"",".jpg");
+        var colour = checkColour(card);
+        globals.position[colour]--;
+        var html = document.getElementById(arrToColour(checkColour(card)));
+        var elements = html.getElementsByClassName("card");
+        var a = true;
+        while ( a ){
+            elements[0].parentNode.removeChild(elements[0]);
+            a = false;
+        }
+    }
+}
+
+
+
+function checkWon(){
+    if (findMax(globals.position) >= 7){
+      var button ="<button id='restart'>Restart</button>";
+      splash(4000, (arrToColourSwedish(searchi(globals.position, findMax(globals.position)))+" är vinnaren! "+button));
+      // ));
+    }
+}
+
+function move(card){
+    if (globals.cardDeck.length > 0){
+        var colour = checkColour(card);
+        globals.position[colour] ++;
+        var position = globals.position[colour];
+        var html = document.getElementById(arrToColour(checkColour(card))).innerHTML;
+        document.getElementById(arrToColour(checkColour(card))).innerHTML = "<div class='card'></div>"+html;
+    }
+}
+
+ //splashscreen for displaying temporary messages
+function splash(time, message){
+    var el = document.getElementById("splash");
+    document.getElementById("splash_message").innerHTML = message;
+    el.classList.toggle("hidden");
+
+    document.getElementById("restart").addEventListener("click", function(){ promptRestart(); },false);
+    // window.setTimeout(function(){el.classList.toggle("hidden")}, time);
+}
+
+function showCard(number){
+  return ("<img src='"+getCardSrc("images/cards","card",number,"",".jpg") +"' alt='playing card' class='card knight pile'>");
+}
+
+function getCardSrc(folder, prefix, number, infix, suffix){
+    return folder+"/"+prefix+number+infix+suffix;
+}
+
+
+
+function findMin(arr){
+    var min = arr[0];
+    for (var i = 0; i<arr.length; i++){
+        if (arr[i] < min){
+            min = arr[i];
+        }
+    }
+    return min;
+}
+
+function findMax(arr){
+    var max = arr[0];
+    for (var i = 0; i<arr.length; i++){
+        if (arr[i] > max){
+            max = arr[i];
+        }
+    }
+    return max;
+}
+
+function arrToColourSwedish(position){
     switch (position){
         case 0: return "hjärter"; break;
         case 1: return "spader"; break;
@@ -147,38 +198,6 @@ function arrToColour(position){
     }
 }
 
-
-function checkLast(){
-    console.log("checkLast", findMinActive(_position), _lastPosition);
-    if ( findMinActive( _position ) > _lastPosition ){
-        console.log("back");
-        _lastPosition++;
-        var card = drawCard();
-        var colour = checkColour(card);
-        _position[colour]--;
-        changeHTML(("stats"+colour), _position[colour]);
-        changeHTML("controlcard",("Kontrollkort: ", _lastPosition));
-        //console.log("checkLastMovedBack", colour, card, "_lastPosition", _lastPosition,"_position[colour]",_position[colour]);
-        // splash(3000, ("Tillbaka med dig!"+ card), "splash");
-        var last = ("step"+_lastPosition);
-        console.log("last", last);
-        var src = showCard("images/cards","card",card,"",".jpg");
-        console.log("src", src);
-        document.getElementById(last).src = src;
-
-        var html = document.getElementById(arrToColour(checkColour(card)));
-        console.log(html);
-
-        var elements = html.getElementsByClassName("card");
-        var a = true;
-        while ( a ){
-            elements[0].parentNode.removeChild(elements[0]);
-            a = false;
-        }
-        console.log("html", html,"elements", elements);
-    }
-}
-
 function searchi(arr, val){
     for (var i = 0; i < arr.length; i++){
         if (arr[i] == val){
@@ -187,175 +206,8 @@ function searchi(arr, val){
     }
 }
 
-function findMinActive(arr){
-    if (arr.length > 0){
-        var min = arr[searchi(_suits, 1)];
-        //console.log("min", min);
-        for (var i = 0; i < arr.length; i++){
-            if (_suits[i] != 0){
-                if (arr[i] < min){
-                    min = arr[i];
-                }
-            }
-        }
-        return min;
-    }
+function toggleClass(el, classy){
+    el.classList.toggle(classy);
 }
 
-function checkWon(){
-    if (findMax(_position) >= _rounds){
-      var button =""; //"<button action='js:pageLoad();'>Click</button>";
-        splash(4000, (arrToColour( findMaxPosition(_position) )+" är vinnaren! "+button), "splash");
-        //resetGlobals();
-    }
-}
-
-function move(card){
-    if (_cardDeck.length > 0){
-        var colour= checkColour(card);
-        _position[colour] ++;
-        var position = _position[colour];
-        var html = document.getElementById(arrToColour(checkColour(card))).innerHTML;
-        document.getElementById(arrToColour(checkColour(card))).innerHTML = "<div class='card'></div>"+html;
-        changeHTML(("stats"+colour), position);
-        console.log("stats"+colour);
-    }
-}
-
-function card(){
-    console.log("card", _cardDeck.length);
-    var card = 0;
-    if ( _cardDeck.length > 0 ){
-        card = drawCard();
-        console.log(card);
-        document.getElementById("pile").innerHTML += "<img src='"+showCard("images/cards","card",card,"",".jpg")+"' alt='card"+card+"' class='pile'>";
-        move(card);
-        checkWon();
-        checkLast();
-    }
-    console.log("card", _cardDeck.length);
-    document.getElementById("draw_card").addEventListener("click", card, false);
-}
-
-function resetGlobals(){
-    _rounds = 7;
-    _suits = [1, 1, 1, 1];
-    _position = [0, 0, 0, 0];
-    // _cardDeck = null;
-    _cardDeckLeft = -1;
-    _lastPosition = 0;
-    // _rounds = -1;
-    // _suits = [0, 0, 0, 0];
-    // _position = [0, 0, 0, 0];
-    // _cardDeck = null;
-    // _cardDeckLeft = -1;
-    // _lastPosition = 0;
-}
-
-// var _rounds = -1;
-// var _suits = [0, 0, 0, 0];
-var _position = [0, 0, 0, 0];
-var _cardDeck;
-var _cardDeckLeft;
-var _lastPosition;
-var _activesuits;
-
-function activeSuits(arr){
-    var min = findMin(arr);
-    //_activesuits.push(findMin(arr));
-    for (var i = min; i < arr.length; i++ ){
-        if ( arr[i] != 0){
-            //_activesuits.push(i);
-        }
-    }
-}
-
-function initiateTableButtons(element, name, startSize, size, id, func){
-    console.log("loaded");
-    var table = document.getElementById(element);
-    var cells = table.getElementsByTagName(name);
-    for (var i = startSize; i < size; i++) {
-        cells[i].id = id+i;
-        cells[i].addEventListener("click", func, false);
-    }
-}
-
- //splashscreen for displaying temporary messages
-function splash(time, message, div){
-    var el = document.getElementById(div);
-    el.innerHTML = message;
-    el.classList.toggle("hidden");
-    window.setTimeout(function(){el.classList.toggle("hidden")}, time);
-}
-
-function showCard(folder, prefix,number, infix, suffix){
-    return folder+"/"+prefix+number+infix+suffix;
-}
-
-function drawCard(){
-    var cardsLeft = _cardDeck.length;
-    if ( cardsLeft == 0){
-        return null;
-    }
-    _cardDeckLeft--;
-    changeHTML("status",(_cardDeckLeft+" kort kvar"),false);
-    console.log("drawCard", _cardDeck.length);
-    return _cardDeck.splice(Math.floor((Math.random() * cardsLeft)), 1);
-}
-
-function findMin(arr){
-    if (arr.length > 0){
-        var min = arr[0];
-        for (var i = 0; i<arr.length; i++){
-            if (arr[i] < min){
-                min = arr[i];
-            }
-        }
-        return min;
-    }
-    else {
-        return null;
-    }
-}
-
-function findMax(arr){
-    if (arr.length > 0){
-        var max = arr[0];
-        for (var i = 0; i<arr.length; i++){
-            if (arr[i] > max){
-                max = arr[i];
-            }
-        }
-        return max;
-    }
-    else {
-        return null;
-    }
-}
-
-function findMaxPosition(arr){
-    if (arr.length > 0){
-        var pos = 0;
-        var val = arr[0];
-        for (var i=0; i<arr.length; i++){
-            if (arr[i] > val){
-                val = arr[i];
-                pos = i;
-            }
-        }
-        return pos;
-    }
-    else {
-        return null;
-    }
-}
-
-//debugging
-function testDeck(){
-    var card = 0;
-    while (_cardDeck.length > 0){
-        card = drawCard();
-        document.getElementById("wrapper").innerHTML += "<img src='"+showCard("images/cards","card",card,"",".jpg")+"' alt='card"+card+"'>";
-    }
-    console.log("tested deck");
-}
+// document.getElementById("wrapper").innerHTML += "<img src='"+showCard("images/cards","card",card,"",".jpg")+"' alt='card"+card+"'>";

@@ -4,13 +4,42 @@
 body {
 	background-color:black;
 	background-image: url("bg-rep.png");
-	font-family: Trebuchet MS1, Trebuchet MS, sans-serif;
+	/*font-family: Trebuchet MS1, Trebuchet MS, sans-serif;*/
+	font-family: 'Open Sans', sans-serif;
 	color: white;
-
+	font-size: 12pt;
+}
+h1{
+	font-size: 3em;
+	display: inline-block;
+}
+button{
+	background-color: #2A3;
+	color: #FFF;
+	font-size: 2em;
+	box-shadow: 0 0 10px 3px rgba(60, 230, 44, 0.5);
+	margin: 10px;
 }
 #wrapper {
-  padding: 5% 10% 5% 10%;
-	margin 0;
+	width: 1020px;
+	height: 800px;
+	background-color: rgba(255,255,255, 0.3);
+	border-radius: 10px;
+	padding: 15px;
+  /*padding: 5% 10% 5% 10%;
+	margin: 0;*/
+	border: 1px solid white;
+	position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.holder{
+	background-color: rgba(60, 230, 44, 0.5);
+	border-radius: 5px;
+}
+#board_cards{
+	margin-top: -50px;
 }
 
 #pick_cards {
@@ -88,7 +117,8 @@ height:40%;
 }
 #board {
 	width:100%;
-	height:40%;
+	min-height: 480px;
+	height:50%;
 }
 #board_tbl {
 	height: 100%;
@@ -97,7 +127,7 @@ height:40%;
 	margin-right: auto;
 }
 #board_tbl div {
-	padding: 3px 5px 3px 5px;
+	/*padding: 3px 5px 3px 5px;*/
 	background-color: white;
 	color: black;
 	height: 100%;
@@ -119,9 +149,7 @@ height:40%;
 
 }
 #stepping_cards {
-/*	background-color: yellow;*/
 	width: 100%;
-
 }
 
 .hidden{
@@ -131,8 +159,7 @@ height:40%;
 	display: block;
 }
 
-.active{
-	/* offset-x | offset-y | blur-radius | color */
+.latest{
 	box-shadow: 0px 0px 20px black inset;
 }
 
@@ -147,6 +174,7 @@ height:40%;
 .card{
 	display: inline-block;
 	width: 87px; /* same as orignial, to make js work correctly*/
+	padding: 3px;
 }
 .pile{
 	margin-left:-65px;
@@ -160,9 +188,16 @@ height:40%;
 #splash{
 	width: 100%;
 	height: 100%;
-	background-color: rgba(100, 205, 255, 0.6);
+	background-color: rgba(0, 0, 0, 0.8);
 	position: fixed;
 	top:0px;
 	left:0px;
 	text-align: center;
-	font: 20pt;
+	font: 4em;
+}
+#splash_message{
+	position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
