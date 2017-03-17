@@ -8,9 +8,11 @@ body {
 	font-family: 'Open Sans', sans-serif;
 	color: white;
 	font-size: 12pt;
+	padding: 0px;
+	margin:0px;
 }
 h1{
-	font-size: 3em;
+	font-size: 1em;
 	display: inline-block;
 }
 button{
@@ -21,135 +23,24 @@ button{
 	margin: 10px;
 }
 #wrapper {
-	width: 1020px;
-	height: 800px;
 	background-color: rgba(255,255,255, 0.3);
 	border-radius: 10px;
-	padding: 15px;
-  /*padding: 5% 10% 5% 10%;
-	margin: 0;*/
 	border: 1px solid white;
-	position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+	width: 100%;
+	height: 100%;
 }
 .holder{
 	background-color: rgba(60, 230, 44, 0.5);
 	border-radius: 5px;
 }
 #board_cards{
-	margin-top: -50px;
+	margin-top: -20px;
 }
 
-#pick_cards {
-width:60%;
-height:40%;
-}
-
-#pick_cards_tbl {
-	width: 100%;
-	height: 100%;
-	margin-left: auto;
-	margin-right: auto;
-}
-
-#pick_cards_tbl div {
-	border-radius: 3px;
-	padding: 3px 5px 3px 5px;
-	background-color: white;
-	color: black;
-	height: 100%;
-
-}
-#pick_cards_tbl div.inv_div {
-	display:none;
-}
-#pick_cards_tbl div.next_div {
-	background-color: green;
-}
-#pick_cards_tbl div.previous_div {
-	background-color: red;
-}
-#pick_cards_tbl tr {
-
-}
-#pick_cards_tbl td {
-
-	padding-right: 3%;
-	padding-bottom: 3%;
-}
-#pick_cards_tbl td.last_hor {
-
-}
-#pick_round_amount {
-	width:60%;
-	height:40%;
-}
-
-#pick_round_amount_tbl {
-	height: 100%;
-	width: 100%;
-	margin-left: auto;
-	margin-right: auto;
-}
-#pick_round_amount_tbl div {
-	padding: 3px 5px 3px 5px;
-	background-color: white;
-	color: black;
-	height: 100%;
-	border-radius: 3px;
-}
-#pick_round_amount_tbl div.next_div {
-	background-color: green;
-}
-#pick_round_amount_tbl div.previous_div {
-	background-color: red;
-}
-#pick_round_amount_tbl tr {
-
-}
-#pick_round_amount_tbl td {
-	width: 20%;
-	padding-right: 3%;
-	padding-bottom: 3%;
-
-}
 #board {
 	width:100%;
-	min-height: 480px;
 	height:50%;
-}
-#board_tbl {
-	height: 100%;
-	width: 100%;
-	margin-left: auto;
-	margin-right: auto;
-}
-#board_tbl div {
-	/*padding: 3px 5px 3px 5px;*/
-	background-color: white;
-	color: black;
-	height: 100%;
-	border-radius: 3px;
-}
-#board_tbl div.next_div {
-	background-color: green;
-}
-#board_tbl div.previous_div {
-	background-color: red;
-}
-#board_tbl tr {
-
-}
-#board_tbl td {
-	width: 20%;
-	padding-right: 3%;
-	padding-bottom: 3%;
-
-}
-#stepping_cards {
-	width: 100%;
+	/*min-height: 400px;*/
 }
 
 .hidden{
@@ -159,32 +50,30 @@ height:40%;
 	display: block;
 }
 
-.latest{
-	box-shadow: 0px 0px 20px black inset;
-}
-
 .row{
 	display: block;
 	width:100%;
-	margin-top: -50px;
+	margin-top: -25px;
+	padding: 0px;
+	font-size: 0pt;
 }
 .row:first-child{
 	margin-top: 0px;
 }
 .card{
 	display: inline-block;
-	width: 87px; /* same as orignial, to make js work correctly*/
-	padding: 3px;
+	font-size: 1em;
+	margin: 1px;
+}
+.card_dimension{
+	width: 43px;
 }
 .pile{
-	margin-left:-65px;
+	margin-left:-33px;
 }
 .pile:first-child{
 	margin-left: 0px;
 }
-/*.knight{
-	transform: rotate(90deg);
-}*/
 #splash{
 	width: 100%;
 	height: 100%;
@@ -193,11 +82,53 @@ height:40%;
 	top:0px;
 	left:0px;
 	text-align: center;
-	font: 4em;
+	font-size: 4em;
 }
 #splash_message{
 	position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+#status{
+	font-size: 1em;
+}
+@media screen and (min-width: 780px){
+	h1{
+		font-size: 3em;
+		display: inline-block;
+	}
+	#wrapper{
+		width: 750px;
+		height: 800px;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		padding: 15px;
+	}
+	.pile{
+		margin-left:-65px;
+	}
+	.card{
+		font-size: 1em;
+		margin: 3px;
+	}
+	.card_dimension{
+		width: 87px;
+	}
+	#board {
+		width:100%;
+		min-height: 440px;
+		height:50%;
+	}
+	#board_cards{
+		margin-top: -50px;
+	}
+	.row{
+		margin-top: -50px;
+	}
+	#status{
+		font-size: 1.5em;
+	}
 }

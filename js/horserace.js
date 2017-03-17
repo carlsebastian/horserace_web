@@ -51,6 +51,7 @@ function drawCard(){
   console.log(card);
   document.getElementById("pile").innerHTML += showCard(card);
   //"<img src='"+showCard("images/cards","card",card,"",".jpg")+"' alt='card"+card+"' class='pile'>";
+  updateStatus(arrToColourSwedish(checkColour(card))+" går ett steg framåt!");
   move(card);
   checkWon();
   checkLast();
@@ -64,6 +65,10 @@ function generateSteppingCards(){
   for (var i = 0; i<7; i++){
     globals.steppingCards.push(drawCardFromDeck);
   }
+}
+
+function updateStatus(text, add){
+  changeHTML("status", text, add);
 }
 
 //common functions
@@ -101,9 +106,12 @@ function checkColour(card){
 
 function checkLast(){
     if ( findMin( globals.position ) > globals.lastPosition ){
+      document.getElementById("draw").setAttribute("disabled", "true");
+      setTimeout(function () {
         globals.lastPosition++;
-        // draw new card
+        // draw new
         var card = drawCardFromDeck()[0];
+        updateStatus((" <b> =>  <u>"+arrToColourSwedish(checkColour(card))+" går ett steg bakåt!</b></u>"), true);
         console.log(card);
         document.getElementById("steppingCard_0"+globals.lastPosition).src=getCardSrc("images/cards","card",card,"",".jpg");
         var colour = checkColour(card);
@@ -115,6 +123,8 @@ function checkLast(){
             elements[0].parentNode.removeChild(elements[0]);
             a = false;
         }
+        document.getElementById("draw").removeAttribute("disabled");
+      }, 1500);
     }
 }
 
@@ -134,7 +144,7 @@ function move(card){
         globals.position[colour] ++;
         var position = globals.position[colour];
         var html = document.getElementById(arrToColour(checkColour(card))).innerHTML;
-        document.getElementById(arrToColour(checkColour(card))).innerHTML = "<div class='card'></div>"+html;
+        document.getElementById(arrToColour(checkColour(card))).innerHTML = "<div class='card card_dimension'> </div>"+html;
     }
 }
 
@@ -149,7 +159,7 @@ function splash(time, message){
 }
 
 function showCard(number){
-  return ("<img src='"+getCardSrc("images/cards","card",number,"",".jpg") +"' alt='playing card' class='card knight pile'>");
+  return ("<img src='"+getCardSrc("images/cards","card",number,"",".jpg") +"' alt='playing card' class='knight pile card_dimension'>");
 }
 
 function getCardSrc(folder, prefix, number, infix, suffix){
@@ -209,5 +219,3 @@ function searchi(arr, val){
 function toggleClass(el, classy){
     el.classList.toggle(classy);
 }
-
-// document.getElementById("wrapper").innerHTML += "<img src='"+showCard("images/cards","card",card,"",".jpg")+"' alt='card"+card+"'>";
